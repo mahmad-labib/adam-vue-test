@@ -27,9 +27,6 @@ export default {
   .router-link-exact-active {
     color: black;
   }
-  a {
-    color: #ced4da;
-  }
 }
 
 // #nav {

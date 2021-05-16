@@ -17,7 +17,7 @@
             <ul class="nav-btns my-auto">
               <li class="btn">Home</li>
               <li class="btn">About Us</li>
-              <router-link v-slot="{ navigate }" to="/article">
+              <router-link v-slot="{ navigate }" to="/authorProfile">
                 <li class="btn" @click="navigate">Test</li>
               </router-link>
               <!-- <li class="btn">Test</li> -->

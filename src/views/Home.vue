@@ -8,9 +8,6 @@
       <NewsBox />
       <NewsBox />
       <NewsBox />
-      <NewsBox />
-      <NewsBox />
-      <NewsBox />
     </div>
   </div>
 </template>

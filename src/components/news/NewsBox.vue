@@ -6,7 +6,7 @@
     <img src="../../assets/valo.jpg" alt="" />
     <div class="box-title">
       <!-- <div>Welcome, {{ username.substring(0, 8) + ".." }}</div> -->
-      <p>{{title.length > 60 ? title.substring(0, 60) + "..." : title}}</p>
+      <h2>{{ title.length > 60 ? title.substring(0, 60) + "..." : title }}</h2>
     </div>
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
   name: "NewsBox",
   data: function () {
     return {
-      title: "How We Updated 275 Knowledge Base Aricles Knowledge Base Aricles Knowledge Base Aricles  in 3 Days",
+      title:
+        "How We Updated 275 Knowledge Base Aricles Knowledge Base Aricles Knowledge Base Aricles  in 3 Days",
     };
   },
   components: {
@@ -32,25 +33,43 @@ export default {
   width: 398px;
   height: 302px;
   margin-bottom: 50px;
-  img {
-    width: 100%;
-    height: 100%;
-  }
+}
+img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+.box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  border-radius: 15px;
+  background: linear-gradient(-180deg, transparent, rgba(0, 0, 0, 0.5));
 }
 .box-title {
   position: absolute;
   bottom: 0px;
-  height: 102px;
-  width: 100%;
-  backdrop-filter: blur(2px);
-  --webkit-backdrop-filter: blur(2px);
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/opacity/see-through */
-  p {
+  // height: 102px;
+  // width: 100%;
+  z-index: 2;
+  // backdrop-filter: blur(2px);
+  // --webkit-backdrop-filter: blur(2px);
+  // background-color: rgb(0, 0, 0); /* Fallback color */
+  // background-color: rgba(0, 0, 0, 0.4); /* Black w/opacity/see-through */
+  // background: linear-gradient(-180deg, transparent, rgba(0, 0, 0, 0.5));
+  h2 {
     font-size: 20px;
     color: white;
     text-align: start;
     margin: 15px 20px;
   }
+}
+.user-icon {
+  margin-left: 14px;
+  margin-right: 14px;
 }
 </style>

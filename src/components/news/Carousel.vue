@@ -13,9 +13,11 @@
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
-    
+
     <div class="carousel-inner">
-      <UserIcon />
+      <div class="user-icon">
+        <UserIcon />
+      </div>
       <div class="carousel-item active">
         <img
           class="d-block"
@@ -114,5 +116,9 @@ export default {
 }
 .blib-left {
   padding: 0px;
+}
+.user-icon{
+  margin-left: 11px;
+  margin-right: 11px;
 }
 </style>

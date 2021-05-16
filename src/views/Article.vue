@@ -13,8 +13,10 @@
       </div>
       <div class="col-md-1"></div>
     </div>
-    <div class="row body-row justify-content-around">
-      <div class="col-md-10" v-html="article.content"></div>
+    <div class="row body-row">
+      <div class="col-md-10" v-html="article.content">
+
+      </div>
     </div>
   </div>
 </template>

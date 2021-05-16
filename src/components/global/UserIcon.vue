@@ -1,13 +1,13 @@
 <template>
-  <div class="user-blib container-full">
+  <div class="user-blib">
     <div class="row">
-      <div class="blib-left col-md-4 col-sm-4">
+      <div class="blib-left">
         <img
           src="https://images.unsplash.com/profile-1449177714116-d6cac59f5eab?dpr=1&auto=format&fit=crop&w=150&h=150&q=60&crop=faces&bg=fff"
           alt=""
         />
       </div>
-      <div class="blib-right col-md-8 col-sm-8">
+      <div class="blib-right">
         <p class="name">
           {{'ruby rose'.length > 10 ? 'ruby rose'.substring(0, 10)+'..' : 'ruby rose'}}
         </p>
@@ -28,7 +28,7 @@ export default {
   margin: 10px 10px 10px 10px;
   color: white;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   width: 186px;
   height: 68px;
   border-radius: 34px;
@@ -56,7 +56,6 @@ export default {
   font-size: 20px;
 }
 .description {
-  margin: auto;
   margin-top: 0px;
   margin-left: 8px;
 }
