@@ -1,6 +1,6 @@
 <template>
   <div class="login container">
-    <form>
+    <div>
       <label>
         <router-link to="/login"> Login</router-link>
       </label>
@@ -10,7 +10,9 @@
       </label>
       <div class="form-group">
         <input
+          v-model="form.email"
           type="email"
+          name="email"
           class="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
@@ -19,20 +21,47 @@
       </div>
       <div class="form-group">
         <input
+          v-model="form.password"
           type="password"
+          name="password"
           class="form-control"
           id="exampleInputPassword1"
           placeholder="Password"
         />
       </div>
-      <button type="submit" class="btn">Submit</button>
-    </form>
+      <button v-on:click="submit()" class="btn">Submit</button>
+    </div>
   </div>
 </template>
 
 <script>
+import store from "../store";
+
 export default {
   name: "Login",
+  data() {
+    return {
+      form: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    submit() {
+      var data = this.form;
+      return store.dispatch("login", {
+        data,
+      }).then(
+        () => this.$router.push('/')
+      )
+    },
+  },
+  // watch: {
+  //   "$store.state.user"(nv) {
+  //     return this.$cookies.set("credential", nv.api_token, "1d");
+  //   },
+  // },
 };
 </script>
 

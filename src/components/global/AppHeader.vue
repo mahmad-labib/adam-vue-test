@@ -17,18 +17,19 @@
             <ul class="nav-btns my-auto">
               <li class="btn">Home</li>
               <li class="btn">About Us</li>
-              <router-link v-slot="{ navigate }" to="/authorProfile">
-                <li class="btn" @click="navigate">Test</li>
-              </router-link>
               <!-- <li class="btn">Test</li> -->
               <li class="btn">Contact Us</li>
               <router-link
-                v-if="!user.api_token"
+                v-if="role === 'admin'"
                 v-slot="{ navigate }"
-                to="/login"
+                to="/authorProfile"
               >
+                <li class="btn" @click="navigate">Admin</li>
+              </router-link>
+              <router-link v-if="!user" v-slot="{ navigate }" to="/login">
                 <li class="btn" @click="navigate">Login</li>
               </router-link>
+              <li class="btn" v-if="user" @click="Logout">Logout</li>
             </ul>
           </div>
         </div>
@@ -44,10 +45,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import store from "../../store";
+import { mapState } from "vuex";
 import Akhbar from "@/components/SVG/akhbar";
 import Menu from "@/components/SVG/menu";
+
 export default {
+  inject: ["Cookies"],
   name: "AppHeader",
   components: {
     Akhbar,
@@ -56,9 +60,15 @@ export default {
   data: () => {
     return {
       userData: {},
+      credential: {},
     };
   },
-  computed: { ...mapGetters(["user"]) },
+  computed: mapState(["role", "user"]),
+  methods: {
+    Logout() {
+      return store.dispatch("logout");
+    },
+  },
 };
 </script>
 

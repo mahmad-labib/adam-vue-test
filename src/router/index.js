@@ -6,6 +6,7 @@ import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import Article from "../views/Article.vue";
 import AuthorProfile from "../views/AuthorProfile.vue";
+import adminHome from "../views/admin/Home.vue";
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     path: "/authorProfile",
     name: "AuthorProfile",
     component: AuthorProfile,
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: adminHome,
   },
 ];
 

@@ -1,6 +1,5 @@
 <template>
-  <div class="user-blib">
-    <div class="row">
+  <div class="row user-blib">
       <div class="blib-left">
         <img
           src="https://images.unsplash.com/profile-1449177714116-d6cac59f5eab?dpr=1&auto=format&fit=crop&w=150&h=150&q=60&crop=faces&bg=fff"
@@ -13,7 +12,6 @@
         </p>
         <p class="description">nutritionist</p>
       </div>
-    </div>
   </div>
 </template>
 
@@ -25,7 +23,6 @@ export default {
 
 <style lang="scss" scoped>
 .user-blib {
-  margin: 10px 10px 10px 10px;
   color: white;
   position: absolute;
   z-index: 2;
@@ -58,5 +55,6 @@ export default {
 .description {
   margin-top: 0px;
   margin-left: 8px;
+  margin-bottom: 0px;
 }
 </style>

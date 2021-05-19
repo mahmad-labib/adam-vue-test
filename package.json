@@ -13,10 +13,13 @@
     "bootstrap": "^4.6.0",
     "core-js": "^3.6.5",
     "jquery": "^3.6.0",
+    "js-cookie": "^2.2.1",
     "normalize.css": "^8.0.1",
     "popper.js": "^1.16.1",
+    "universal-cookie": "^4.0.4",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-cookies": "^1.0.1",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
