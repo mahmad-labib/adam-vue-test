@@ -28,7 +28,7 @@ export default {
   components: {
     AppHeader,
     AdminNavbar,
-    SideMenu
+    SideMenu,
   },
   computed: {
     links: function () {
@@ -52,7 +52,8 @@ export default {
   .router-link-exact-active {
     color: black;
   }
-  .content-row{
+  .content-row {
+    margin-top: 20px;
     margin-right: 0px;
     margin-left: 0px;
   }

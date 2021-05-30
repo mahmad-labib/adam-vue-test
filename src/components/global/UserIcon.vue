@@ -1,5 +1,5 @@
 <template>
-  <div class="row user-blib">
+  <div class="user-blib row">
       <div class="blib-left">
         <img
           src="https://images.unsplash.com/profile-1449177714116-d6cac59f5eab?dpr=1&auto=format&fit=crop&w=150&h=150&q=60&crop=faces&bg=fff"
@@ -24,7 +24,7 @@ export default {
 <style lang="scss" scoped>
 .user-blib {
   color: white;
-  position: absolute;
+  // position: absolute;
   z-index: 2;
   width: 186px;
   height: 68px;

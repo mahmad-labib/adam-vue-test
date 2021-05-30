@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Cookies from 'js-cookie';
 import Home from "../views/Home.vue";
 import Help from "../views/Help.vue";
 import Blog from "../views/Blog.vue";
@@ -7,6 +8,8 @@ import SignUp from "../views/SignUp.vue";
 import Article from "../views/Article.vue";
 import AuthorProfile from "../views/AuthorProfile.vue";
 import adminHome from "../views/admin/Home.vue";
+import AddArticle from "../views/admin/AddArticle.vue";
+
 
 const routes = [
   {
@@ -37,6 +40,29 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    async beforeEnter(to, from, next) {
+      try {
+        var credential = await Cookies.get("credential");
+        if (credential) {
+          next({
+            name: "Home", // back to safety route //
+            query: { redirectFrom: to.fullPath }
+          })
+        }
+        next()
+      } catch (e) {
+        next({
+          name: "login", // back to safety route //
+          query: { redirectFrom: to.fullPath }
+        })
+      }
+      // if (Cookies.get(Credential) == true) {
+      //   next({
+      //     name: '/',
+      //     query: { redirectFrom: to.fullPath }
+      //   })
+      // }
+    }
   },
   {
     path: "/signup",
@@ -57,6 +83,11 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: adminHome,
+  },
+  {
+    path: "/admin/addArticle",
+    name: "addArticle",
+    component: AddArticle,
   },
 ];
 

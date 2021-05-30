@@ -33,6 +33,9 @@ export default {
   width: 398px;
   height: 302px;
   margin-bottom: 50px;
+  .row{
+    margin: 0px;
+  }
 }
 img {
   width: 100%;
@@ -53,14 +56,7 @@ img {
 .box-title {
   position: absolute;
   bottom: 0px;
-  // height: 102px;
-  // width: 100%;
   z-index: 2;
-  // backdrop-filter: blur(2px);
-  // --webkit-backdrop-filter: blur(2px);
-  // background-color: rgb(0, 0, 0); /* Fallback color */
-  // background-color: rgba(0, 0, 0, 0.4); /* Black w/opacity/see-through */
-  // background: linear-gradient(-180deg, transparent, rgba(0, 0, 0, 0.5));
   h2 {
     font-size: 20px;
     color: white;
@@ -70,6 +66,7 @@ img {
 }
 .user-icon {
   margin-left: 14px;
-  margin-right: 14px;
+  margin-top: 14px;
+  position: absolute;
 }
 </style>

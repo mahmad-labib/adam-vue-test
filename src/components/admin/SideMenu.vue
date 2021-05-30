@@ -1,51 +1,29 @@
 <template>
   <div class="side-menu">
-    <div class="row menu-btn">
-      <p class="my-auto">Home</p>
-    </div>
-    <div class="row menu-btn">
-      <p class="my-auto">Add Articles</p>
-    </div>
-    <div class="row menu-btn">
-      <p class="my-auto">My Pending Articles</p>
-    </div>
-    <div class="row menu-btn">
-      <p class="my-auto">Users Pending Articles</p>
-    </div>
-    <div class="row menu-btn">
-      <p class="my-auto">Users</p>
-    </div>
-    <div class="row menu-btn">
-      <p class="my-auto">Roles & permissions</p>
-    </div>
-    <div class="row menu-btn">
-      <p class="my-auto">Sections</p>
-    </div>
+    <menu-btn to="/admin" name="Home" />
+    <menu-btn to="/admin/addArticle" name="AddArticle" />
+    <menu-btn to="/admin/addArticle" name="My Pending Articles" />
+    <menu-btn to="/admin/addArticle" name="Users Pending Articles" />
+    <menu-btn to="/admin/addArticle" name="Users" />
+    <menu-btn to="/admin/addArticle" name="Roles & permissions" />
+    <menu-btn to="/admin/addArticle" name="Sections" />
   </div>
 </template>
 <script>
+import MenuBtn from "./MenuBtn";
 export default {
   name: "sideMenu",
+  components: {
+    MenuBtn,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .side-menu {
-  height: 100vh;
-  background-color: #f4f4f4;
-  .menu-btn {
-    margin: auto;
-    padding-left: 25px;
-    width: 95%;
-    height: 56px;
-    background-color: #707070;
-    color: white;
-    text-align: center;
-    text-justify: auto;
-    border-radius: 15px;
-    font-size: 18px;
-    margin-bottom: 6px;
-    margin-top: 6px;
+  a {
+    text-decoration: none;
   }
+  background-color: #f4f4f4;
 }
 </style>

@@ -8,6 +8,9 @@
       <label>
         <router-link to="/signup"> SignUp</router-link>
       </label>
+      <div>
+        <p>{{ message }}</p>
+      </div>
       <div class="form-group">
         <input
           v-model="form.email"
@@ -52,16 +55,14 @@ export default {
       var data = this.form;
       return store.dispatch("login", {
         data,
-      }).then(
-        () => this.$router.push('/')
-      )
+      });
     },
   },
-  // watch: {
-  //   "$store.state.user"(nv) {
-  //     return this.$cookies.set("credential", nv.api_token, "1d");
-  //   },
-  // },
+  computed: {
+    message: function () {
+      return this.$store.state.message;
+    },
+  },
 };
 </script>
 

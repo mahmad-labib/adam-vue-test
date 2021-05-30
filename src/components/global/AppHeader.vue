@@ -3,11 +3,14 @@
     <div class="container">
       <div class="row">
         <div class="col-md-2 my-auto">
-          <img
-            src="https://picsum.photos/200"
-            class="rounded-circle"
-            alt="Cinque Terre"
-          />
+          <router-link v-slot="{ navigate }" to="/admin">
+            <img
+            @click="navigate"
+              src="https://picsum.photos/200"
+              class="rounded-circle"
+              alt="Cinque Terre"
+            />
+          </router-link>
         </div>
         <div class="col-md-8">
           <div class="row">

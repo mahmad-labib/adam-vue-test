@@ -118,7 +118,12 @@ export default {
   padding: 0px;
 }
 .user-icon{
+  .row{
+    margin: 0px;
+  }
   margin-left: 11px;
-  margin-right: 11px;
+  margin-top: 11px;
+  position: absolute;
+  z-index: 1;
 }
 </style>

@@ -27,6 +27,7 @@ export default {
   background-color: white;
   position: relative;
   box-shadow: 0px 4px 5px rgba(68, 68, 68, 0.16);
+  margin: 0px;
   .user-icon{
     margin: auto;
     position: relative;
