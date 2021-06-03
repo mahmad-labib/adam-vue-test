@@ -1,11 +1,25 @@
 <template>
   <div>
-    <button @click="$refs.getFile.click()" id="upload">
+    <div>
+      {{ message }}
+    </div>
+    <div class="input-group input-group-lg">
+      <span class="input-group-text" id="inputGroup-sizing-lg">Title</span>
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-lg"
+      />
+    </div>
+    <button @click="$refs.getFile.click()" id="upload" hidden>
       Add Image
       <input type="file" ref="getFile" id="getFile" @change="addImage" hidden />
     </button>
     <editor
       initialValue="<p>Initial editor content</p>"
+      output-format="html"
+      v-model="content"
       :init="{
         file_picker_types: 'file image media',
         file_picker_callback: function (callback, value, meta) {
@@ -26,10 +40,12 @@
       }"
     >
     </editor>
+    <button @click="submitArticle(content)">Submit Article</button>
   </div>
 </template>
 
 <script>
+import store from "../../store";
 import Editor from "@tinymce/tinymce-vue";
 
 export default {
@@ -42,7 +58,11 @@ export default {
       selectedFile: [],
     };
   },
-
+  computed: {
+    message: function () {
+      return this.$store.state.message;
+    },
+  },
   methods: {
     onFileChanged(event) {
       this.selectedFile.push(event.target.files[0]);
@@ -51,24 +71,9 @@ export default {
       document.getElementById("#upload").click();
     },
     async addImage(data) {
-      console.log(data.target.files[0], 'addImage');
+      // console.log(data.target.files[0], "addImage");
       var file = data.target.files[0];
       this.selectedFile.push(file);
-      // const blobToData = (blob) => {
-      //   return new Promise((resolve) => {
-      //     const reader = new FileReader();
-      //     reader.onloadend = () => resolve(reader.result);
-      //     reader.readAsDataURL(blob);
-      //   });
-      // };
-      // const resData = await blobToData(file);
-      // console.log(resData);
-      // return resData;
-      // this.editor
-      //   .chain()
-      //   .focus()
-      //   .setImage({ src: resData, title: file.name })
-      //   .run();
     },
     handlerFunction(callback, value, meta) {
       if (meta.filetype == "image") {
@@ -85,6 +90,36 @@ export default {
           reader.readAsDataURL(file);
         };
       }
+    },
+    submitArticle(article) {
+      var Article = this.changeImgSrc(article);
+      var p = document.createElement("p");
+      p.innerHTML = Article;
+      var formData = new FormData();
+
+      // let images = [];
+      for (var i = 0; i < this.selectedFile.length; i++) {
+        let file = this.selectedFile[i];
+        formData.append("images[]", file);
+      }
+      formData.append("content", p.innerHTML);
+      formData.append("section_id", 1);
+      formData.append("title", "vue article");
+
+      // var doc = p.innerHTML;
+      return store.dispatch("PublishArticle", {
+        formData,
+      });
+    },
+    changeImgSrc(article) {
+      var div = document.createElement("div");
+      div.innerHTML = article;
+      var images = div.querySelectorAll("img");
+      images.forEach((image) => {
+        var name = image.getAttribute("alt");
+        image.setAttribute("src", name);
+      });
+      return div.innerHTML;
     },
   },
 };

@@ -43,6 +43,12 @@ export default createStore({
       Cookies.remove('credential')
       Cookies.remove('user')
       Cookies.remove('role')
+    },
+    publishedArticle() {
+      return router.push("/")
+    },
+    publishedArticleError(state, result) {
+      state.msg = result;
     }
   },
 
@@ -72,6 +78,14 @@ export default createStore({
         commit('DELETE_USER', result)
       }).catch(error => {
         commit('DELETE_USER', error)
+      })
+    },
+    PublishArticle({ commit }, data) {
+      axios.post('api/v1/dashboard/articles', data.formData).then(result => {
+        console.log(result)
+        // commit('publishedArticle', result)
+      }).catch(error => {
+        commit('publishedArticleError', error)
       })
     }
   },
