@@ -2,8 +2,8 @@
   <div class="side-menu">
     <menu-btn to="/admin" name="Home" />
     <menu-btn to="/admin/addArticle" name="AddArticle" />
-    <menu-btn to="/admin/addArticle" name="My Pending Articles" />
-    <menu-btn to="/admin/addArticle" name="Users Pending Articles" />
+    <menu-btn to="/admin/myPendingArticles" name="My Pending Articles" />
+    <menu-btn to="/admin/usersPendingArticle" name="Users Pending Articles" />
     <menu-btn to="/admin/addArticle" name="Users" />
     <menu-btn to="/admin/addArticle" name="Roles & permissions" />
     <menu-btn to="/admin/addArticle" name="Sections" />

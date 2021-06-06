@@ -9,6 +9,9 @@ import Article from "../views/Article.vue";
 import AuthorProfile from "../views/AuthorProfile.vue";
 import adminHome from "../views/admin/Home.vue";
 import AddArticle from "../views/admin/AddArticle.vue";
+import UsersPendingArticle from "../views/admin/UsersPendingArticle.vue";
+import MyPendingArticles from "../views/admin/MyPendingArticles.vue";
+import EditArticle from "../views/admin/EditArticle";
 
 
 const routes = [
@@ -88,6 +91,21 @@ const routes = [
     path: "/admin/addArticle",
     name: "addArticle",
     component: AddArticle,
+  },
+  {
+    path: "/admin/usersPendingArticle",
+    name: "UsersPendingArticle",
+    component: UsersPendingArticle,
+  },
+  {
+    path: "/admin/myPendingArticles",
+    name: "MyPendingArticles",
+    component: MyPendingArticles,
+  },
+  {
+    path: "/admin/editArticle",
+    name: "EditArticle",
+    component: EditArticle,
   },
 ];
 

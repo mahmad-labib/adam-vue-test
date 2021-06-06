@@ -218,7 +218,7 @@
         </div>
       </div>
     </div>
-    <div class="row justify-content-around news-row">
+    <div class="row justify-content-around">
       <news-box />
       <news-box />
       <news-box />

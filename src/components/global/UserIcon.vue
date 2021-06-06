@@ -24,7 +24,6 @@ export default {
 <style lang="scss" scoped>
 .user-blib {
   color: white;
-  // position: absolute;
   z-index: 2;
   width: 186px;
   height: 68px;
