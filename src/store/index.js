@@ -10,7 +10,9 @@ export default createStore({
     role: Cookies.getJSON('role'),
     article: null,
     route: '',
-    message: ""
+    message: "",
+    users: [],
+    pages: []
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -30,7 +32,6 @@ export default createStore({
           Cookies.set('role', 'admin', { expires: 1 })
         }
       });
-      // console.log(state.role)
       Cookies.set('credential', user.api_token, { expires: 1 })
       return router.push("/")
     },
@@ -49,6 +50,15 @@ export default createStore({
     },
     publishedArticleError(state, result) {
       state.msg = result;
+    },
+    async getUsers(state, result) {
+      var pages = await axios.get('api/v1/admin/usersPages');
+      var pagesArr = []
+      for (let index = 1; index <= pages.data.pages; index++) {
+        pagesArr.push(index);
+      }
+      state.pages = pagesArr;
+      state.users = result.data.users;
     }
   },
 
@@ -87,11 +97,25 @@ export default createStore({
       }).catch(error => {
         commit('publishedArticleError', error)
       })
+    },
+    getUsers({ commit }, data) {
+      // axios.headers.common['paginate'] = data.paginate;
+      axios.get('api/v1/admin/users', { headers: { paginate: data.paginate } }).then(result => {
+        commit('getUsers', result);
+      }).catch(error => {
+        commit('getUsers', error)
+      })
     }
   },
   getters: {
     user: state => {
       return state.user;
+    },
+    getUsers: state => {
+      return state.users;
+    },
+    getPages: state => {
+      return state.pages;
     }
   },
   modules: {},

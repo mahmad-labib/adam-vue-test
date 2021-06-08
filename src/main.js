@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 // import Vue from "vue";
+// import BootstrapVue from "bootstrap-vue"
 import app from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -22,7 +23,7 @@ axios.defaults.baseURL = "http://apiProject.stg";
 axios.defaults.headers.common['Authorization'] = 'Bearer' + ' ' + token;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-// Vue.use(ElementUI);
+// Vue.use(BootstrapVue);
 // Vue.use(ElementTiptapPlugin, {
 //   // lang: "zh",
 //   // spellcheck: false,
