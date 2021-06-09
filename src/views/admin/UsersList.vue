@@ -1,5 +1,52 @@
 <template>
   <div>
+    <form @submit="search(searchData, $event)">
+      <div class="row">
+        <div class="input-group mb-3 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="name"
+            aria-label="name"
+            aria-describedby="button-addon2"
+            v-model="searchData.name"
+          />
+        </div>
+        <div class="input-group mb-3 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Role"
+            aria-label="Role"
+            aria-describedby="button-addon2"
+            v-model="searchData.role"
+          />
+        </div>
+        <div class="input-group mb-3 col-md-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Section"
+            aria-label="Section"
+            aria-describedby="button-addon2"
+            v-model="searchData.section"
+          />
+        </div>
+        <div class="input-group mb-3 col-md-3">
+          <button
+            class="btn btn-outline-secondary"
+            id="button-addon2"
+            type="submit"
+          >
+            Search
+          </button>
+          <button class="btn btn-warning" type="button" id="button-addon2">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
+
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -15,17 +62,25 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <button class="btn btn-info" v-for="role in user.roles" :key="role.id">
+            <button
+              class="btn btn-info"
+              v-for="role in user.roles"
+              :key="role.id"
+            >
               {{ role.name }}
             </button>
           </td>
           <td>
-            <button class="btn btn-info" v-for="section in user.sections" :key="section.id">
+            <button
+              class="btn btn-info"
+              v-for="section in user.sections"
+              :key="section.id"
+            >
               {{ section.name }}
             </button>
           </td>
           <td>
-              <button  class="btn btn-primary">Edit</button>
+            <button class="btn btn-primary">Edit</button>
           </td>
         </tr>
       </tbody>
@@ -34,7 +89,14 @@
       <nav aria-label="Page navigation pagination-wrapper">
         <ul class="pagination">
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li @click="getUsers(page)" v-for="page in getPages" :key="page" class="page-item"><a class="page-link" href="#">{{page}}</a></li>
+          <li
+            @click="getUsers(page)"
+            v-for="page in getPages"
+            :key="page"
+            class="page-item"
+          >
+            <a class="page-link" href="#">{{ page }}</a>
+          </li>
           <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
       </nav>
@@ -52,13 +114,20 @@ export default {
     return {
       users: this.usersData,
       page: 1,
-      pages: []
+      pages: [],
+      searchData: { name: null, section: null, role: null },
     };
   },
   methods: {
     getUsers(paginate) {
       return store.dispatch("getUsers", {
         paginate,
+      });
+    },
+    search(data, event) {
+      event.preventDefault()
+      return store.dispatch("searchUsers", {
+        data,
       });
     },
   },
@@ -77,8 +146,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btn{
-margin-right: 0.5px;
-margin-bottom: 0.5px;
+.btn {
+  margin-right: 0.5px;
+  margin-bottom: 0.5px;
 }
 </style>
