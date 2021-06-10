@@ -13,7 +13,7 @@ export default createStore({
     message: "",
     users: [],
     pages: [],
-    // searchUsers: []
+    activeUser: null,
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -64,7 +64,7 @@ export default createStore({
     searchUsers(state, result) {
       console.log(result.data.users);
       state.users = result.data.users;
-    }
+    },
   },
 
   actions: {
@@ -112,13 +112,12 @@ export default createStore({
       })
     },
     searchUsers({ commit }, data) {
-      console.log(data, 'data');
       axios.post('api/v1/admin/usersSearch', data.data).then(result => {
         commit('searchUsers', result);
       }).catch(error => {
         commit('searchUsers', error)
       })
-    }
+    },
   },
   getters: {
     user: state => {

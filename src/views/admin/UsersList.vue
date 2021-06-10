@@ -9,6 +9,7 @@
             placeholder="name"
             aria-label="name"
             aria-describedby="button-addon2"
+            name="name"
             v-model="searchData.name"
           />
         </div>
@@ -19,6 +20,7 @@
             placeholder="Role"
             aria-label="Role"
             aria-describedby="button-addon2"
+            name="role"
             v-model="searchData.role"
           />
         </div>
@@ -29,6 +31,7 @@
             placeholder="Section"
             aria-label="Section"
             aria-describedby="button-addon2"
+            name="section"
             v-model="searchData.section"
           />
         </div>
@@ -80,7 +83,9 @@
             </button>
           </td>
           <td>
-            <button class="btn btn-primary">Edit</button>
+            <button @click="redirectToEditUser(user)" class="btn btn-primary">
+              Edit
+            </button>
           </td>
         </tr>
       </tbody>
@@ -106,7 +111,7 @@
 
 <script>
 import store from "../../store";
-// import { mapGetters } from 'vuex'
+import router from "../../router";
 
 export default {
   name: "UsersList",
@@ -125,9 +130,16 @@ export default {
       });
     },
     search(data, event) {
-      event.preventDefault()
+      event.preventDefault();
       return store.dispatch("searchUsers", {
         data,
+      });
+    },
+    redirectToEditUser(user) {
+      this.$store.state.activeUser = user;
+      return router.push({
+        name: "EditUser",
+        props: { userId: user }
       });
     },
   },

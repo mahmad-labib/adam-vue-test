@@ -30,7 +30,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 // });
 
 createApp(app).use(store).use(router).provide('Cookies', Cookies).mount("#app");
-
+// app.config.silent = true;
 
 // App.config.globalProperties.$filters = {
 //   currencyUSD(value) {

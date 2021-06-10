@@ -13,6 +13,7 @@ import UsersPendingArticle from "../views/admin/UsersPendingArticle.vue";
 import MyPendingArticles from "../views/admin/MyPendingArticles.vue";
 import EditArticle from "../views/admin/EditArticle";
 import UsersList from "../views/admin/UsersList";
+import EditUser from "../views/admin/EditUser";
 
 
 const routes = [
@@ -112,6 +113,11 @@ const routes = [
     path: "/admin/usersList",
     name: "UsersList",
     component: UsersList,
+  },
+  {
+    path: "/admin/editUser",
+    name: "EditUser",
+    component: EditUser,
   },
 ];
 
