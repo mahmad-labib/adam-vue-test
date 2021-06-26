@@ -139,7 +139,7 @@ export default {
       this.$store.state.activeUser = user;
       return router.push({
         name: "EditUser",
-        props: { userId: user }
+        props: { userId: user },
       });
     },
   },
@@ -159,7 +159,7 @@ export default {
 
 <style lang="scss" scoped>
 .btn {
-  margin-right: 0.5px;
-  margin-bottom: 0.5px;
+  margin-right: 1px;
+  margin-bottom: 1px;
 }
 </style>

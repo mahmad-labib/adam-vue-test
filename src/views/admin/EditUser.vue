@@ -3,7 +3,7 @@
     <button @click="readOnly" style="margin: 15px" class="btn btn-warning">
       Start Edit
     </button>
-    <form>
+    <form @submit="editUser(user, $event)">
       <div class="form-group row">
         <label for="staticEmail" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
@@ -45,6 +45,9 @@
           <treeselect v-model="value" :multiple="true" :options="options" />
         </div>
       </div>
+      <div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
     </form>
   </div>
 </template>
@@ -54,7 +57,7 @@ import Treeselect from "vue3-treeselect";
 // import the styles
 import "vue3-treeselect/dist/vue3-treeselect.css";
 import axios from "axios";
-// import store from "../../store";
+import store from "../../store";
 // import router from '../../router'
 export default {
   props: true,
@@ -90,6 +93,19 @@ export default {
     },
     getUser() {
       this.user = this.usersData;
+    },
+    editUser(user, event) {
+      if (this.value !== null) {
+        user.roles = this.value;
+      } else {
+        this.user.roles.forEach((role) => {
+          user.roles.push(role.id);
+        });
+      }
+      event.preventDefault();
+      return store.dispatch("editUser", {
+        user,
+      });
     },
   },
   mounted: function () {

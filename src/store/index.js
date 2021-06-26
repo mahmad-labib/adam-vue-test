@@ -1,15 +1,14 @@
 import { createStore } from "vuex";
 import axios from "axios";
-import Cookies from 'js-cookie';
-import router from '../router';
-
+import Cookies from "js-cookie";
+import router from "../router";
 
 export default createStore({
   state: {
-    user: Cookies.getJSON('user'),
-    role: Cookies.getJSON('role'),
+    user: Cookies.getJSON("user"),
+    role: Cookies.getJSON("role"),
     article: null,
-    route: '',
+    route: "",
     message: "",
     users: [],
     pages: [],
@@ -18,43 +17,43 @@ export default createStore({
   mutations: {
     SAVE_USER(state, data) {
       if (data.status == false) {
-        return state.message = data.msg
+        return (state.message = data.msg);
       }
       var user = data.user;
       state.user = user;
-      Cookies.set('user', user, { expires: 1 })
-      state.message = '';
-      user.roles.forEach(role => {
-        if (role === 'user') {
-          state.role = role.name
-          Cookies.set('role', role.name, { expires: 1 })
+      Cookies.set("user", user, { expires: 1 });
+      state.message = "";
+      user.roles.forEach((role) => {
+        if (role === "user") {
+          state.role = role.name;
+          Cookies.set("role", role.name, { expires: 1 });
         } else {
-          state.role = 'admin'
-          Cookies.set('role', 'admin', { expires: 1 })
+          state.role = "admin";
+          Cookies.set("role", "admin", { expires: 1 });
         }
       });
-      Cookies.set('credential', user.api_token, { expires: 1 })
-      return router.push("/")
+      Cookies.set("credential", user.api_token, { expires: 1 });
+      return router.push("/");
     },
     SAVE_ARTICLE(state, article) {
-      state.article = article
+      state.article = article;
     },
     DELETE_USER(state) {
-      state.user = null
-      state.role = null
-      Cookies.remove('credential')
-      Cookies.remove('user')
-      Cookies.remove('role')
+      state.user = null;
+      state.role = null;
+      Cookies.remove("credential");
+      Cookies.remove("user");
+      Cookies.remove("role");
     },
     publishedArticle() {
-      return router.push("/")
+      return router.push("/");
     },
     publishedArticleError(state, result) {
       state.msg = result;
     },
     async getUsers(state, result) {
-      var pages = await axios.get('api/v1/admin/usersPages');
-      var pagesArr = []
+      var pages = await axios.get("api/v1/admin/usersPages");
+      var pagesArr = [];
       for (let index = 1; index <= pages.data.pages; index++) {
         pagesArr.push(index);
       }
@@ -65,70 +64,102 @@ export default createStore({
       console.log(result.data.users);
       state.users = result.data.users;
     },
+    editUser() {
+      return router.push("/admin/usersList");
+    },
   },
 
   actions: {
     login({ commit }, data) {
-      axios.defaults.headers.common['Authorization'] = null;
-      axios.post('/api/v1/login', { email: `${data.data.email}`, password: data.data.password }).then(result => {
-        // axios.defaults.headers.common['Authorization'] = 'Bearer' + ' ' + result.data.user.api_token
-        commit('SAVE_USER', result.data);
-      }).catch(error => {
-        throw new Error(`API ${error}`);
-      });
+      axios.defaults.headers.common["Authorization"] = null;
+      axios
+        .post("/api/v1/login", {
+          email: `${data.data.email}`,
+          password: data.data.password,
+        })
+        .then((result) => {
+          axios.defaults.headers.common['Authorization'] = 'Bearer' + ' ' + result.data.user.api_token
+          commit("SAVE_USER", result.data);
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
     },
     article({ commit }, id) {
-      axios.get(`api/v1/article/` + id.id).then(result => {
-        if (result.data.status == false) {
-          return result.data.msg
-        } else {
-          commit('SAVE_ARTICLE', result.data)
-        }
-      }).catch(error => {
-        throw new Error(`API ${error}`)
-      })
+      axios
+        .get(`api/v1/article/` + id.id)
+        .then((result) => {
+          if (result.data.status == false) {
+            return result.data.msg;
+          } else {
+            commit("SAVE_ARTICLE", result.data);
+          }
+        })
+        .catch((error) => {
+          throw new Error(`API ${error}`);
+        });
     },
     logout({ commit }) {
-      axios.post('api/v1/logout').then(result => {
-        commit('DELETE_USER', result)
-      }).catch(error => {
-        commit('DELETE_USER', error)
-      })
+      axios
+        .post("api/v1/logout")
+        .then((result) => {
+          commit("DELETE_USER", result);
+        })
+        .catch((error) => {
+          commit("DELETE_USER", error);
+        });
     },
     PublishArticle({ commit }, data) {
-      axios.post('api/v1/dashboard/articles', data.formData).then(result => {
-        console.log(result)
-        // commit('publishedArticle', result)
-      }).catch(error => {
-        commit('publishedArticleError', error)
-      })
+      axios
+        .post("api/v1/dashboard/articles", data.formData)
+        .then((result) => {
+          console.log(result);
+          // commit('publishedArticle', result)
+        })
+        .catch((error) => {
+          commit("publishedArticleError", error);
+        });
     },
     getUsers({ commit }, data) {
       // axios.headers.common['paginate'] = data.paginate;
-      axios.get('api/v1/admin/users', { headers: { paginate: data.paginate } }).then(result => {
-        commit('getUsers', result);
-      }).catch(error => {
-        commit('getUsers', error)
-      })
+      axios
+        .get("api/v1/admin/users", { headers: { paginate: data.paginate } })
+        .then((result) => {
+          commit("getUsers", result);
+        })
+        .catch((error) => {
+          commit("getUsers", error);
+        });
     },
     searchUsers({ commit }, data) {
-      axios.post('api/v1/admin/usersSearch', data.data).then(result => {
-        commit('searchUsers', result);
-      }).catch(error => {
-        commit('searchUsers', error)
-      })
+      axios
+        .post("api/v1/admin/usersSearch", data.data)
+        .then((result) => {
+          commit("searchUsers", result);
+        })
+        .catch((error) => {
+          commit("searchUsers", error);
+        });
+    },
+    editUser({ commit }, data) {
+      console.log("store", data.user);
+      axios
+        .post(`api/v1/admin/users/${data.user.id}?_method=PUT`, data.user)
+        .then((result) => {
+          commit("editUser", result);
+        });
     },
   },
   getters: {
-    user: state => {
+    user: (state) => {
       return state.user;
     },
-    getUsers: state => {
+    getUsers: (state) => {
       return state.users;
     },
-    getPages: state => {
+    getPages: (state) => {
       return state.pages;
-    }
+    },
   },
   modules: {},
 });
