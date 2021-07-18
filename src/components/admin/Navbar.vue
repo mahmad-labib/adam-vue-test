@@ -2,10 +2,12 @@
   <div class="header row">
     <div class="col-md-4 my-auto"></div>
     <div class="col-md-4 my-auto">
-      <Akhbar />
+      <router-link class="mx-auto" v-slot="{ navigate }" to="/">
+        <Akhbar class="mx-auto" @click="navigate" />
+      </router-link>
     </div>
     <div class="col-md-4 my-auto">
-      <UserIcon class="user-icon"/>
+      <UserIcon class="user-icon" />
     </div>
   </div>
 </template>
@@ -28,7 +30,7 @@ export default {
   position: relative;
   box-shadow: 0px 4px 5px rgba(68, 68, 68, 0.16);
   margin: 0px;
-  .user-icon{
+  .user-icon {
     margin: auto;
     position: relative;
   }

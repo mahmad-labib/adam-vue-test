@@ -12,6 +12,11 @@ export default createStore({
     message: "",
     users: [],
     pages: [],
+    pages_info: {
+      currentPage: 1,
+      lastPage: 1
+    },
+    last_page: Number,
     activeUser: null,
   },
   mutations: {
@@ -44,6 +49,7 @@ export default createStore({
       Cookies.remove("credential");
       Cookies.remove("user");
       Cookies.remove("role");
+      return router.push("/");
     },
     publishedArticle() {
       return router.push("/");
@@ -52,19 +58,24 @@ export default createStore({
       state.msg = result;
     },
     async getUsers(state, result) {
+      console.log('getusers', result.data);
       var pages = await axios.get("api/v1/admin/usersPages");
       var pagesArr = [];
       for (let index = 1; index <= pages.data.pages; index++) {
         pagesArr.push(index);
       }
-      state.pages = pagesArr;
-      state.users = result.data.users;
+      state.pages_info.currentPage = result.data.users.current_page;
+      state.pages_info.lastPage = result.data.users.last_page;
+      state.users = result.data.users.data;
     },
     searchUsers(state, result) {
-      console.log(result.data.users);
-      state.users = result.data.users;
+      console.log('searchUsers', result.data.users);
+      state.users = result.data.users.data;
+      state.pages_info.currentPage = result.data.users.current_page;
+      state.pages_info.lastPage = result.data.users.last_page;
     },
-    editUser() {
+    editUser(state, result) {
+      console.log('edituser', result);
       return router.push("/admin/usersList");
     },
   },
@@ -78,17 +89,20 @@ export default createStore({
           password: data.data.password,
         })
         .then((result) => {
-          axios.defaults.headers.common['Authorization'] = 'Bearer' + ' ' + result.data.user.api_token
+          axios.defaults.headers.common["Authorization"] = "Bearer" + " " + result.data.user.api_token;
           commit("SAVE_USER", result.data);
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
         });
     },
-    article({ commit }, id) {
+    article({ dispatch, commit }, id) {
       axios
         .get(`api/v1/article/` + id.id)
         .then((result) => {
+          if (result.data.msg === "invalid-token") {
+            return dispatch('logout');
+          }
           if (result.data.status == false) {
             return result.data.msg;
           } else {
@@ -114,17 +128,20 @@ export default createStore({
         .post("api/v1/dashboard/articles", data.formData)
         .then((result) => {
           console.log(result);
-          // commit('publishedArticle', result)
+          // commit("publishedArticle", result)
         })
         .catch((error) => {
           commit("publishedArticleError", error);
         });
     },
-    getUsers({ commit }, data) {
-      // axios.headers.common['paginate'] = data.paginate;
+    getUsers({ dispatch, commit }, data) {
+      // axios.headers.common["paginate"] = data.paginate;
       axios
         .get("api/v1/admin/users", { headers: { paginate: data.paginate } })
         .then((result) => {
+          if (result.data.msg == "invalid-token") {
+            return dispatch('logout');
+          }
           commit("getUsers", result);
         })
         .catch((error) => {
@@ -160,6 +177,9 @@ export default createStore({
     getPages: (state) => {
       return state.pages;
     },
+    pagesInfo: (state) => {
+      return state.pages_info;
+    }
   },
   modules: {},
 });

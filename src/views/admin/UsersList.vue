@@ -43,7 +43,12 @@
           >
             Search
           </button>
-          <button class="btn btn-warning" type="button" id="button-addon2">
+          <button
+            @click="resetPage"
+            class="btn btn-warning"
+            type="button"
+            id="button-addon2"
+          >
             Reset
           </button>
         </div>
@@ -66,7 +71,7 @@
           <td>{{ user.email }}</td>
           <td>
             <button
-              class="btn btn-info"
+              class="btn btn-info float-left"
               v-for="role in user.roles"
               :key="role.id"
             >
@@ -74,13 +79,13 @@
             </button>
           </td>
           <td>
-            <button
-              class="btn btn-info"
+            <div
+              class="btn btn-info float-left"
               v-for="section in user.sections"
               :key="section.id"
             >
               {{ section.name }}
-            </button>
+            </div>
           </td>
           <td>
             <button @click="redirectToEditUser(user)" class="btn btn-primary">
@@ -95,8 +100,10 @@
         <ul class="pagination">
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
           <li
-            @click="getUsers(page)"
-            v-for="page in getPages"
+            @click="
+              searchState ? search(searchData, null, page) : getUsers(page)
+            "
+            v-for="page in pagesInfo.lastPage"
             :key="page"
             class="page-item"
           >
@@ -119,7 +126,7 @@ export default {
     return {
       users: this.usersData,
       page: 1,
-      pages: [],
+      searchState: false,
       searchData: { name: null, section: null, role: null },
     };
   },
@@ -129,8 +136,10 @@ export default {
         paginate,
       });
     },
-    search(data, event) {
-      event.preventDefault();
+    search(data, event, page) {
+      event ? event.preventDefault() : null;
+      page ? (data.paginate = page) : (data.paginate = data.page);
+      this.searchState = true;
       return store.dispatch("searchUsers", {
         data,
       });
@@ -141,6 +150,14 @@ export default {
         name: "EditUser",
         props: { userId: user },
       });
+    },
+    resetPage() {
+      this.searchState = false;
+      this.page = 1;
+      this.searchData.name = null;
+      this.searchData.sections = null;
+      this.searchData.role = null;
+      this.getUsers(this.page);
     },
   },
   created() {
@@ -153,6 +170,9 @@ export default {
     getPages: function () {
       return this.$store.state.pages;
     },
+    pagesInfo: function () {
+      return this.$store.state.pages_info;
+    },
   },
 };
 </script>
@@ -161,5 +181,7 @@ export default {
 .btn {
   margin-right: 1px;
   margin-bottom: 1px;
+  font-size: 15px;
+  padding: 3px;
 }
 </style>

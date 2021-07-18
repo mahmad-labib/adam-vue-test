@@ -5,7 +5,7 @@
         <div class="col-md-2 my-auto">
           <router-link v-slot="{ navigate }" to="/admin">
             <img
-            @click="navigate"
+              @click="navigate"
               src="https://picsum.photos/200"
               class="rounded-circle"
               alt="Cinque Terre"
@@ -14,11 +14,22 @@
         </div>
         <div class="col-md-8">
           <div class="row">
-            <Akhbar class="mx-auto" />
+            <router-link class="mx-auto" v-slot="{ navigate }" to="/">
+              <Akhbar class="mx-auto" @click="navigate" />
+            </router-link>
           </div>
           <div class="row">
             <ul class="nav-btns my-auto">
-              <li class="btn">Home</li>
+              <router-link v-slot="{ navigate }" to="/">
+                <li class="btn" @click="navigate">Home</li>
+              </router-link>
+              <router-link
+                v-if="role === 'admin' || role === 'moderator'"
+                v-slot="{ navigate }"
+                to="/admin"
+              >
+                <li class="btn" @click="navigate">Admin Panel</li>
+              </router-link>
               <li class="btn">About Us</li>
               <!-- <li class="btn">Test</li> -->
               <li class="btn">Contact Us</li>

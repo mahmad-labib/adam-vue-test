@@ -14,6 +14,7 @@ import MyPendingArticles from "../views/admin/MyPendingArticles.vue";
 import EditArticle from "../views/admin/EditArticle";
 import UsersList from "../views/admin/UsersList";
 import EditUser from "../views/admin/EditUser";
+import RolesPermissions from "../views/admin/RolesPermissions";
 
 
 const routes = [
@@ -118,6 +119,11 @@ const routes = [
     path: "/admin/editUser",
     name: "EditUser",
     component: EditUser,
+  },
+  {
+    path: "/admin/RolesPermissions",
+    name: "RolesPermissions",
+    component: RolesPermissions,
   },
 ];
 
