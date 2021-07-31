@@ -15,6 +15,8 @@ import EditArticle from "../views/admin/EditArticle";
 import UsersList from "../views/admin/UsersList";
 import EditUser from "../views/admin/EditUser";
 import RolesPermissions from "../views/admin/RolesPermissions";
+import AddRole from "../views/admin/AddRole";
+import EditRole from "../views/admin/EditRole";
 
 
 const routes = [
@@ -124,6 +126,16 @@ const routes = [
     path: "/admin/RolesPermissions",
     name: "RolesPermissions",
     component: RolesPermissions,
+  },
+  {
+    path: "/admin/AddRole",
+    name: "AddRole",
+    component: AddRole,
+  },
+  {
+    path: "/admin/EditRole",
+    name: "EditRole",
+    component: EditRole,
   },
 ];
 

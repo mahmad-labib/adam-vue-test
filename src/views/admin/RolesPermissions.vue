@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h1>Roles</h1>
+    <h1>roles</h1>
+    <router-link class="mx-auto" v-slot="{ navigate }" to="/admin/AddRole">
+      <button class="btn btn-dark add-btn" @click="navigate">Add Role</button>
+    </router-link>
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -15,14 +18,14 @@
           <td>
             <button
               class="btn btn-info float-left"
-              v-for="perm in roles.permissions"
+              v-for="perm in role.permissions"
               :key="perm.id"
             >
               {{ perm.name }}
             </button>
           </td>
           <td>
-            <button @click="redirectToEditUser(user)" class="btn btn-primary">
+            <button @click="redirectToEditRole(role)" class="btn btn-primary">
               Edit
             </button>
           </td>
@@ -33,6 +36,8 @@
 </template>
 <script>
 import axios from "axios";
+import router from "../../router"
+// import store from "../../store";
 
 export default {
   name: "RolesPermissions",
@@ -45,6 +50,14 @@ export default {
     getRoles() {
       axios.get("api/v1/admin/roles").then((result) => {
         this.roles = result.data.roles;
+        console.log(result.data.roles);
+      });
+    },
+    redirectToEditRole(role) {
+      this.$store.state.activeRole = role;
+      return router.push({
+        name: "EditRole",
+        // props: { userId: user },
       });
     },
   },
@@ -54,4 +67,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.add-btn {
+  margin: 5px;
+}
+</style>

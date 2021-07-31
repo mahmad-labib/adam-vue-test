@@ -18,6 +18,7 @@ export default createStore({
     },
     last_page: Number,
     activeUser: null,
+    activeRole: null,
   },
   mutations: {
     SAVE_USER(state, data) {
