@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Edit {{ role.name }}</h1>
+    <h1>Edit Role</h1>
     <form>
       <div class="form-group row">
         <label for="staticEmail" class="col-sm-2 col-form-label"
@@ -28,7 +28,7 @@
               (e) =>
                 e.target.classList.toggle('btn-danger') &
                 e.target.querySelector('.fa').classList.toggle('fa-trash') &
-                deletedItems(role.id, 'roles')
+                deletedItems(perm.id)
             "
           >
             <i v-on:click.stop class="fa fa-check" aria-hidden="true"></i>
@@ -71,6 +71,7 @@
 
 <script>
 import axios from "axios";
+import router from "../../router";
 import { mapState } from "vuex";
 export default {
   name: "EditRole",
@@ -110,13 +111,18 @@ export default {
     submitRole(role, event) {
       event.preventDefault();
       if (this.selectedPerm.length > 0) {
+        console.log('selected')
         role.permissions = this.selectedPerm;
+      }else{
+        role.permissions = [];
       }
       role.deletedPerm = this.deletedPerm;
+      console.log(role);
       axios
-        .post(`apiProject.stg/api/v1/admin/roles/${role.id}?_method=PUT`)
-        .then((result) => {
-          console.log(result);
+        .post(`api/v1/admin/roles/${role.id}?_method=PUT`, role)
+        .then((data) => {
+          console.log(data);
+          return router.push("/admin/RolesPermissions");
         });
     },
   },
