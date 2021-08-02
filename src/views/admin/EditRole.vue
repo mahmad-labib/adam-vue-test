@@ -24,7 +24,14 @@
             v-for="perm in role.permissions"
             :key="perm.id"
             class="btn btn-info"
+            @click="
+              (e) =>
+                e.target.classList.toggle('btn-danger') &
+                e.target.querySelector('.fa').classList.toggle('fa-trash') &
+                deletedItems(role.id, 'roles')
+            "
           >
+            <i v-on:click.stop class="fa fa-check" aria-hidden="true"></i>
             {{ perm.name }}
           </div>
         </div>
@@ -70,10 +77,12 @@ export default {
   data() {
     return {
       role: {
-          name: '',
-          permissions: []
+        name: "",
+        permissions: [],
       },
       permissions: [],
+      deletedPerm: [],
+      selectedPerm: [],
     };
   },
   methods: {
@@ -83,20 +92,40 @@ export default {
       });
     },
     selectPerm(id) {
-      var checkPerm = this.role.permissions.indexOf(id);
+      var checkPerm = this.selectedPerm.indexOf(id);
       if (checkPerm !== -1) {
-        this.role.permissions.splice(checkPerm, 1);
+        this.selectedPerm.splice(checkPerm, 1);
       } else {
-        this.role.permissions.push(id);
+        this.selectedPerm.push(id);
       }
-    }
+    },
+    deletedItems(id) {
+      var checkPerm = this.deletedPerm.indexOf(id);
+      if (checkPerm !== -1) {
+        this.deletedPerm.splice(checkPerm, 1);
+      } else {
+        this.deletedPerm.push(id);
+      }
+    },
+    submitRole(role, event) {
+      event.preventDefault();
+      if (this.selectedPerm.length > 0) {
+        role.permissions = this.selectedPerm;
+      }
+      role.deletedPerm = this.deletedPerm;
+      axios
+        .post(`apiProject.stg/api/v1/admin/roles/${role.id}?_method=PUT`)
+        .then((result) => {
+          console.log(result);
+        });
+    },
   },
   computed: {
     ...mapState(["activeRole"]),
   },
   mounted: function () {
-    this.role.name = this.activeRole.name;
-    this.role.permissions = this.activeRole.permissions;
+    this.role = this.activeRole;
+    // this.role.permissions = this.activeRole.permissions;
     this.getPermissions();
   },
 };

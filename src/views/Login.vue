@@ -32,7 +32,12 @@
           placeholder="Password"
         />
       </div>
-      <button v-on:click="submit()" class="btn">Submit</button>
+      <button v-on:click="submit()" class="btn">
+        <div v-if="spinner" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div v-else>Submit</div>
+      </button>
     </div>
   </div>
 </template>
@@ -48,10 +53,12 @@ export default {
         email: "",
         password: "",
       },
+      spinner: true,
     };
   },
   methods: {
     submit() {
+      this.spinner = true;
       var data = this.form;
       return store.dispatch("login", {
         data,
@@ -62,6 +69,9 @@ export default {
     message: function () {
       return this.$store.state.message;
     },
+  },
+  mounted: function () {
+    this.spinner = false;
   },
 };
 </script>
