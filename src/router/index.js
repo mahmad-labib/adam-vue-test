@@ -17,6 +17,7 @@ import EditUser from "../views/admin/EditUser";
 import RolesPermissions from "../views/admin/RolesPermissions";
 import AddRole from "../views/admin/AddRole";
 import EditRole from "../views/admin/EditRole";
+import Sections from "../views/admin/Sections";
 
 
 const routes = [
@@ -136,6 +137,11 @@ const routes = [
     path: "/admin/EditRole",
     name: "EditRole",
     component: EditRole,
+  },
+  {
+    path: "/admin/Sections",
+    name: "Sections",
+    component: Sections,
   },
 ];
 

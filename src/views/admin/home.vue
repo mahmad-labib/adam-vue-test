@@ -22,6 +22,7 @@
                   class="form-control"
                   id="Name"
                   placeholder="Name"
+                  v-model="user.name"
                 />
               </div>
             </div>
@@ -34,6 +35,7 @@
                   class="form-control"
                   id="Email"
                   placeholder="Email"
+                  v-model="user.email"
                 />
               </div>
             </div>
@@ -144,13 +146,13 @@
       <div class="col-md-5">
         <div class="row info-box justify-content-between">
           <div class="col-md-4 child-box my-auto">
-            <div class="row title">rejected articles</div>
+            <div class="row title">accepted articles</div>
             <div class="row counter">
               <p>0</p>
             </div>
           </div>
           <div class="col-md-4 child-box my-auto">
-            <div class="row title">rejected articles</div>
+            <div class="row title">pending articles</div>
             <div class="row counter">
               <p>3</p>
             </div>
@@ -166,17 +168,13 @@
           <div class="col">
             <div class="vertical-info-box">
               <div class="row title">Roles</div>
-              <div class="row v-b-child"><p>writer</p></div>
-              <div class="row v-b-child"><p>editor</p></div>
-              <div class="row v-b-child"><p>publisher</p></div>
+              <div v-for="role in user.roles" :key="role.id" class="row v-b-child"><p>{{role.name}}</p></div>
             </div>
           </div>
           <div class="col">
             <div class="vertical-info-box right">
               <div class="row title">Sections</div>
-              <div class="row v-b-child"><p>writer</p></div>
-              <div class="row v-b-child"><p>editor</p></div>
-              <div class="row v-b-child"><p>publisher</p></div>
+              <div v-for="section in user.sections" :key="section.id" class="row v-b-child"><p>{{section.name}}</p></div>
             </div>
           </div>
         </div>
@@ -241,11 +239,26 @@
 </template>
 
 <script>
+// import axios from "axios";
+import { mapState } from "vuex";
 import NewsBox from "../../components/news/NewsBox.vue";
 export default {
   name: "admin-home",
   components: {
     NewsBox,
+  },
+  data() {
+    return {
+      data: {},
+    };
+  },
+  methods: {
+  },
+  computed: {
+    ...mapState(["user"]),
+  },
+  mounted: function () {
+    this.data = this.user;
   },
 };
 </script>
@@ -306,7 +319,8 @@ export default {
     justify-content: center;
   }
   .title {
-    font-size: 20px;
+    font-size: 15px;
+    font-weight: bold;
   }
 }
 .counter {

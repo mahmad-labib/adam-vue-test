@@ -6,7 +6,7 @@
     <menu-btn to="/admin/usersPendingArticle" name="Users Pending Articles" />
     <menu-btn to="/admin/usersList" name="Users" />
     <menu-btn to="/admin/RolesPermissions" name="Roles & permissions" />
-    <menu-btn to="/admin/addArticle" name="Sections" />
+    <menu-btn to="/admin/Sections" name="Sections" />
   </div>
 </template>
 <script>

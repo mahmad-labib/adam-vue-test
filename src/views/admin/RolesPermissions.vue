@@ -17,7 +17,7 @@
           <td>{{ role.name }}</td>
           <td>
             <button
-              class="btn btn-info float-left"
+              class="btn btn-info float-left table-btn"
               v-for="perm in role.permissions"
               :key="perm.id"
             >
@@ -70,5 +70,8 @@ export default {
 <style lang="scss" scoped>
 .add-btn {
   margin: 5px;
+}
+.table-btn{
+  margin-right: 5px;
 }
 </style>
