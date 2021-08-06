@@ -19,6 +19,7 @@ export default createStore({
     last_page: Number,
     activeUser: null,
     activeRole: null,
+    userPendingArticles: [],
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -70,15 +71,19 @@ export default createStore({
       state.users = result.data.users.data;
     },
     searchUsers(state, result) {
-      console.log('searchUsers', result.data.users);
       state.users = result.data.users.data;
       state.pages_info.currentPage = result.data.users.current_page;
       state.pages_info.lastPage = result.data.users.last_page;
     },
-    editUser(state, result) {
-      console.log('edituser', result);
+    editUser() {
       return router.push("/admin/usersList");
     },
+    userUpdate(state, result) {
+      state.user = result.user;
+    },
+    userPendingArticles(state, result) {
+      state.userPendingArticles = result.data.articles;
+    }
   },
 
   actions: {
@@ -149,6 +154,14 @@ export default createStore({
           commit("getUsers", error);
         });
     },
+    getUser({ dispatch, commit }, data) {
+      axios.get(`api/v1/admin/users/${data.id}`).then((result) => {
+        if (result.data.msg == "invalid-token") {
+          return dispatch('logout');
+        }
+        commit("userUpdate", result.data)
+      })
+    },
     searchUsers({ commit }, data) {
       axios
         .post("api/v1/admin/usersSearch", data.data)
@@ -167,6 +180,11 @@ export default createStore({
           commit("editUser", result);
         });
     },
+    userPendingArticles({ commit }) {
+      axios.get('/api/v1/dashboard/submitToPendingArticles').then((result) => {
+        commit("userPendingArticles", result);
+      })
+    }
   },
   getters: {
     user: (state) => {

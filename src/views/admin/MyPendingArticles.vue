@@ -2,7 +2,7 @@
   <div class="wrapper container-full">
     <div class="row justify-content-center title">My Pending Articles</div>
     <div class="row justify-content-around">
-      <box />
+      <box v-for="article in articles" :key="article.id" :title="article.title"/>
       <box />
       <box />
     </div>
@@ -10,10 +10,25 @@
 </template>
 <script>
 import Box from "../../components/admin/MyArticleBox.vue";
+import store from "../../store";
+
 export default {
   name: "MyPendingArticles",
   components: {
     Box,
+  },
+  methods: {
+    getArticle() {
+      return store.dispatch("userPendingArticles");
+    }
+  },
+  mounted:function() {
+    this.getArticle();
+  },
+  computed: {
+    articles: function () {
+      return this.$store.state.userPendingArticles;
+    },
   },
 };
 </script>

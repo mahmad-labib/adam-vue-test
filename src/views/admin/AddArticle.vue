@@ -3,6 +3,26 @@
     <div>
       {{ message }}
     </div>
+    <!-- <div>
+      <h5>Add Cover Image</h5>
+
+      <input
+        type="file"
+        ref="coverInput"
+        id="coverInput"
+        @change="addCoverImage"
+      />
+    </div> -->
+    <div class="row">
+      <div class="col-sm-4">Choose Section</div>
+      <div class="col-sm-8">
+        <treeselect
+          v-model="sectionsValue"
+          :multiple="false"
+          :options="sectionsOptions"
+        />
+      </div>
+    </div>
     <div class="input-group input-group-lg">
       <span class="input-group-text" id="inputGroup-sizing-lg">Title</span>
       <input
@@ -46,22 +66,34 @@
 
 <script>
 import store from "../../store";
+// import axios from "axios";
+import Treeselect from "vue3-treeselect";
+// import the styles
+import "vue3-treeselect/dist/vue3-treeselect.css";
 import Editor from "@tinymce/tinymce-vue";
+import { mapState } from "vuex";
 
 export default {
   name: "AddArticle",
   components: {
     editor: Editor,
+    Treeselect,
   },
   data() {
     return {
       selectedFile: [],
+      coverImage: {},
+      sectionsValue: null,
+      // define options
+      sectionsOptions: [],
+      userSections: [],
     };
   },
   computed: {
     message: function () {
       return this.$store.state.message;
     },
+    ...mapState(["user"]),
   },
   methods: {
     onFileChanged(event) {
@@ -70,10 +102,18 @@ export default {
     click() {
       document.getElementById("#upload").click();
     },
+    coverClick() {
+      document.getElementById("#cover").click();
+    },
     async addImage(data) {
       // console.log(data.target.files[0], "addImage");
       var file = data.target.files[0];
       this.selectedFile.push(file);
+    },
+    async addCoverImage(data) {
+      // console.log(data.target.files[0], "addImage");
+      var file = data.target.files[0];
+      this.coverImage = file;
     },
     handlerFunction(callback, value, meta) {
       if (meta.filetype == "image") {
@@ -121,6 +161,57 @@ export default {
       });
       return div.innerHTML;
     },
+    getSections(sections) {
+      sections.forEach((element) => {
+        var children =
+          element.children != null ? this.editChildren(element) : [];
+        if (children.length > 0) {
+          this.sectionsOptions.push({
+            id: element.id,
+            label: element.name,
+            children: children,
+          });
+        } else {
+          this.sectionsOptions.push({
+            id: element.id,
+            label: element.name,
+          });
+        }
+      });
+    },
+    editChildren(data) {
+      var children = [];
+      data.children.forEach((element) => {
+        var elChildren =
+          element.children != null ? this.editChildren(element) : [];
+        if (elChildren.length > 0) {
+          children.push({
+            id: element.id,
+            label: element.name,
+            children: elChildren,
+          });
+        } else {
+          children.push({
+            id: element.id,
+            label: element.name,
+          });
+        }
+      });
+      return children;
+    },
+    refreshUser(id) {
+      store.dispatch("getUser", {
+        id,
+      });
+    },
+  },
+  mounted: function () {
+    // this.userSections = this.user;
+    this.refreshUser(this.user.id);
+    this.getSections(this.user.sections);
+  },
+  unmounted() {
+    console.log("Component has been destroyed!");
   },
 };
 </script>
