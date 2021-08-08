@@ -2,9 +2,7 @@
   <div class="wrapper container-full">
     <div class="row justify-content-center title">My Pending Articles</div>
     <div class="row justify-content-around">
-      <box v-for="article in articles" :key="article.id" :title="article.title"/>
-      <box />
-      <box />
+      <box v-for="article in articles" :key="article.id" :article="article"/>
     </div>
   </div>
 </template>

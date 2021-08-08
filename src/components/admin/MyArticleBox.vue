@@ -1,5 +1,5 @@
 <template>
-  <div @click="openEditor" class="box">
+  <div @click="openEditor(article)" class="box">
     <div class="header row"></div>
 
     <div class="text-col my-auto">
@@ -7,37 +7,45 @@
     </div>
     <div class="info row justify-content-around">
       <div class="icon">
-        <rejected />
+        <Comment v-if="article.comment" />
       </div>
     </div>
 
     <div class="box-title row">
       <!-- <div>Welcome, {{ username.substring(0, 8) + ".." }}</div> -->
     </div>
-    {{title}}
-    <h2>{{ title.length > 60 ? title.substring(0, 60) + "..." : title }}</h2>
+    {{ article.title }}
+    <h2>
+      {{
+        article.title.length > 60
+          ? article.title.substring(0, 60) + "..."
+          : article.title
+      }}
+    </h2>
   </div>
 </template>
 
 <script>
 import router from "../../router";
-import Rejected from "../SVG/rejected.vue";
-// import Comment from "../SVG/comment.vue";
+// import Rejected from "../SVG/rejected.vue";
+import Comment from "../SVG/comment.vue";
 export default {
   name: "MyArticleBox",
-  data: function () {
-    return {
-      title:
-        "How We Updated 275 Knowledge Base Aricles Knowledge Base Aricles Knowledge Base Aricles  in 3 Days",
-    };
-  },
+  props: ["article"],
+  // data: function () {
+  //   return {
+  //     title:
+  //       "How We Updated 275 Knowledge Base Aricles Knowledge Base Aricles Knowledge Base Aricles  in 3 Days",
+  //   };
+  // },
   components: {
-    Rejected,
-    // Comment,
+    // Rejected,
+    Comment,
   },
   methods: {
-    openEditor() {
-      return router.push("editArticle");
+    openEditor(article) {
+      this.$store.state.current_article = article;
+      return router.push({ path: "editArticle" });
     },
   },
 };

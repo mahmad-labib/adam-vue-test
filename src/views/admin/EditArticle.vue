@@ -6,13 +6,10 @@
     <div>
       <p class="comment-title">Editors Comment:</p>
       <p class="comment-area">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, odit nam
-        dolor sit pariatur ipsam et. Dolores expedita repudiandae voluptas
-        maiores optio, eaque placeat pariatur? Tempora animi minima provident
-        in!
+        {{ article.comment }}
       </p>
     </div>
-    <hr>
+    <hr />
     <div class="input-group input-group-lg">
       <span class="input-group-text" id="inputGroup-sizing-lg">Title</span>
       <input
@@ -20,6 +17,7 @@
         class="form-control"
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-lg"
+        v-model="article.title"
       />
     </div>
     <button @click="$refs.getFile.click()" id="upload" hidden>
@@ -56,17 +54,34 @@
 <script>
 // import store from "../../store";
 import Editor from "@tinymce/tinymce-vue";
+import { mapState } from "vuex";
 export default {
   name: "EditArticle",
+  data() {
+    return {
+      content: {},
+      article: {},
+    };
+  },
   components: {
     editor: Editor,
+  },
+  methods: {
+    getArticle() {
+      this.content = this.current_article.content;
+      this.article = this.current_article;
+    },
+  },
+  computed: mapState(["current_article"]),
+  mounted: function () {
+    this.getArticle();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.comment-title{
-    text-align: left;
+.comment-title {
+  text-align: left;
 }
 .comment-area {
   background-color: white;

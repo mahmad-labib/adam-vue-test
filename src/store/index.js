@@ -12,6 +12,7 @@ export default createStore({
     message: "",
     users: [],
     pages: [],
+    current_article: {},
     pages_info: {
       currentPage: 1,
       lastPage: 1
@@ -198,6 +199,9 @@ export default createStore({
     },
     pagesInfo: (state) => {
       return state.pages_info;
+    },
+    article: (state) => {
+      return state.current_article;
     }
   },
   modules: {},
