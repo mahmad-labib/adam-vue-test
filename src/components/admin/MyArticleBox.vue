@@ -14,7 +14,6 @@
     <div class="box-title row">
       <!-- <div>Welcome, {{ username.substring(0, 8) + ".." }}</div> -->
     </div>
-    {{ article.title }}
     <h2>
       {{
         article.title.length > 60

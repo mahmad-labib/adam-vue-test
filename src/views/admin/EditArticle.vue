@@ -52,13 +52,14 @@
   </div>
 </template>
 <script>
-// import store from "../../store";
+import store from "../../store";
 import Editor from "@tinymce/tinymce-vue";
 import { mapState } from "vuex";
 export default {
   name: "EditArticle",
   data() {
     return {
+      selectedFile: [],
       content: {},
       article: {},
     };
@@ -70,6 +71,64 @@ export default {
     getArticle() {
       this.content = this.current_article.content;
       this.article = this.current_article;
+    },
+    onFileChanged(event) {
+      this.selectedFile.push(event.target.files[0]);
+    },
+    click() {
+      document.getElementById("#upload").click();
+    },
+    async addImage(data) {
+      // console.log(data.target.files[0], "addImage");
+      var file = data.target.files[0];
+      this.selectedFile.push(file);
+    },
+    handlerFunction(callback, value, meta) {
+      if (meta.filetype == "image") {
+        var input = document.getElementById("getFile");
+        input.click();
+        input.onchange = function () {
+          var file = input.files[0];
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            callback(e.target.result, {
+              alt: file.name,
+            });
+          };
+          reader.readAsDataURL(file);
+        };
+      }
+    },
+    submitArticle(article) {
+      var Article = this.changeImgSrc(article);
+      var p = document.createElement("p");
+      p.innerHTML = Article;
+      var formData = new FormData();
+
+      // let images = [];
+      for (var i = 0; i < this.selectedFile.length; i++) {
+        let file = this.selectedFile[i];
+        formData.append("images[]", file);
+      }
+      formData.append("content", p.innerHTML);
+      formData.append("section_id", 1);
+      formData.append("title", this.article.title);
+      formData.append("id", this.article.id);
+      var id = this.article.id
+      return store.dispatch("editPendingArticle", {
+        formData,
+        id
+      });
+    },
+    changeImgSrc(article) {
+      var div = document.createElement("div");
+      div.innerHTML = article;
+      var images = div.querySelectorAll("img");
+      images.forEach((image) => {
+        var name = image.getAttribute("alt");
+        image.setAttribute("src", name);
+      });
+      return div.innerHTML;
     },
   },
   computed: mapState(["current_article"]),

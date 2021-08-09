@@ -82,7 +82,6 @@ export default {
   data() {
     return {
       selectedFile: [],
-      coverImage: {},
       sectionsValue: null,
       // define options
       sectionsOptions: [],
@@ -102,18 +101,10 @@ export default {
     click() {
       document.getElementById("#upload").click();
     },
-    coverClick() {
-      document.getElementById("#cover").click();
-    },
     async addImage(data) {
       // console.log(data.target.files[0], "addImage");
       var file = data.target.files[0];
       this.selectedFile.push(file);
-    },
-    async addCoverImage(data) {
-      // console.log(data.target.files[0], "addImage");
-      var file = data.target.files[0];
-      this.coverImage = file;
     },
     handlerFunction(callback, value, meta) {
       if (meta.filetype == "image") {

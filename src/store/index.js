@@ -84,6 +84,9 @@ export default createStore({
     },
     userPendingArticles(state, result) {
       state.userPendingArticles = result.data.articles;
+    },
+    editPendingArticle() {
+      return router.push("/admin/myPendingArticles");
     }
   },
 
@@ -184,6 +187,12 @@ export default createStore({
     userPendingArticles({ commit }) {
       axios.get('/api/v1/dashboard/submitToPendingArticles').then((result) => {
         commit("userPendingArticles", result);
+      })
+    },
+    editPendingArticle({ commit }, data) {
+      axios.post(`api/v1/dashboard/submitToPendingArticles/${data.id}?_method=PUT`, data.formData).then((result) => {
+        console.log('editPendingArticle', result);
+        commit("editPendingArticle", result);
       })
     }
   },
