@@ -52,11 +52,22 @@
 
 <script>
 import Box from "../../components/admin/PendingArticleBox";
+import store from "../../store"
 export default {
   name: "MyPendingArticle",
   components: {
     Box,
   },
+  methods: {
+    getArticles() {
+      return store.dispatch("getUsersPendingArticle");
+    },
+  },
+  // computed: mapState(["current_article"]),
+  mounted: function () {
+    this.getArticles();
+  },
+
 };
 </script>
 
@@ -71,8 +82,8 @@ export default {
   margin: auto;
   margin-top: 15px;
 }
-.my-page{
-  margin-top:15px;
+.my-page {
+  margin-top: 15px;
 }
 .pagination {
   .page-link {

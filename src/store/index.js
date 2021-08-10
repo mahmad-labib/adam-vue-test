@@ -191,8 +191,12 @@ export default createStore({
     },
     editPendingArticle({ commit }, data) {
       axios.post(`api/v1/dashboard/submitToPendingArticles/${data.id}?_method=PUT`, data.formData).then((result) => {
-        console.log('editPendingArticle', result);
         commit("editPendingArticle", result);
+      })
+    },
+    getUsersPendingArticle() {
+      axios.get('api/v1/dashboard/pendingArticle').then((result) => {
+        console.log('getUsersPendingArticle', result);
       })
     }
   },
