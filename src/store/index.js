@@ -21,6 +21,7 @@ export default createStore({
     activeUser: null,
     activeRole: null,
     userPendingArticles: [],
+    allPendingArticles: [],
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -87,6 +88,10 @@ export default createStore({
     },
     editPendingArticle() {
       return router.push("/admin/myPendingArticles");
+    },
+    allPendingArticles(state, result) {
+      console.log(result.data.articles);
+      state.allPendingArticles = result.data.articles;
     }
   },
 
@@ -194,9 +199,9 @@ export default createStore({
         commit("editPendingArticle", result);
       })
     },
-    getUsersPendingArticle() {
+    allPendingArticles({ commit }) {
       axios.get('api/v1/dashboard/pendingArticle').then((result) => {
-        console.log('getUsersPendingArticle', result);
+        commit("allPendingArticles", result);
       })
     }
   },

@@ -31,10 +31,13 @@
       </div>
     </div>
     <div class="row">
-      <box class="box" />
-      <box class="box" />
-      <box class="box" />
-      <box class="box" />
+      <box
+        class="box"
+        v-for="article in articles"
+        :key="article.id"
+        :article="article"
+      />
+      <!-- <box class="box" /> -->
     </div>
     <div class="my-page row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">
@@ -52,7 +55,7 @@
 
 <script>
 import Box from "../../components/admin/PendingArticleBox";
-import store from "../../store"
+import store from "../../store";
 export default {
   name: "MyPendingArticle",
   components: {
@@ -60,14 +63,17 @@ export default {
   },
   methods: {
     getArticles() {
-      return store.dispatch("getUsersPendingArticle");
+      return store.dispatch("allPendingArticles");
     },
   },
-  // computed: mapState(["current_article"]),
   mounted: function () {
     this.getArticles();
   },
-
+  computed: {
+    articles: function () {
+      return this.$store.state.allPendingArticles;
+    },
+  },
 };
 </script>
 

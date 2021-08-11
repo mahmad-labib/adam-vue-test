@@ -17,7 +17,7 @@
               <label for="Name" class="col-sm-4 col-form-label">Name:</label>
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="Name"
@@ -30,7 +30,7 @@
               <label for="Email" class="col-sm-4 col-form-label">Email:</label>
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="email"
                   class="form-control"
                   id="Email"
@@ -45,11 +45,12 @@
               >
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="facebook"
                   placeholder="facebook"
+                  v-model="user.fb_link"
                 />
               </div>
             </div>
@@ -59,11 +60,12 @@
               >
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="twitter"
                   placeholder="twitter"
+                  v-model="user.twitter_link"
                 />
               </div>
             </div>
@@ -73,11 +75,12 @@
               >
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="speciality"
                   placeholder="speciality"
+                  v-model="user.speciality"
                 />
               </div>
             </div>
@@ -87,11 +90,12 @@
               >
               <div class="col-sm-8">
                 <textarea
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="summary"
                   placeholder="summary"
+                  v-model="user.summary"
                 />
               </div>
             </div>
@@ -101,7 +105,7 @@
               >
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="old-password"
@@ -115,7 +119,7 @@
               >
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="new-password"
@@ -129,7 +133,7 @@
               >
               <div class="col-sm-8">
                 <input
-                  readonly
+                  :readonly="edit === false"
                   type="text"
                   class="form-control"
                   id="retype-password"
@@ -138,8 +142,9 @@
               </div>
             </div>
           </div>
-          <div class="row form-button mx-auto">
-            <div class="col-md-12 my-auto">Submit</div>
+          <div @click="editState()" class="row form-button mx-auto">
+            <div class="col-md-12 my-auto" v-if="edit">Submit</div>
+            <div class="col-md-12 my-auto" v-else>Edit</div>
           </div>
         </div>
       </div>
@@ -168,13 +173,25 @@
           <div class="col">
             <div class="vertical-info-box">
               <div class="row title">Roles</div>
-              <div v-for="role in user.roles" :key="role.id" class="row v-b-child"><p>{{role.name}}</p></div>
+              <div
+                v-for="role in user.roles"
+                :key="role.id"
+                class="row v-b-child"
+              >
+                <p>{{ role.name }}</p>
+              </div>
             </div>
           </div>
           <div class="col">
             <div class="vertical-info-box right">
               <div class="row title">Sections</div>
-              <div v-for="section in user.sections" :key="section.id" class="row v-b-child"><p>{{section.name}}</p></div>
+              <div
+                v-for="section in user.sections"
+                :key="section.id"
+                class="row v-b-child"
+              >
+                <p>{{ section.name }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -249,10 +266,18 @@ export default {
   },
   data() {
     return {
-      data: {},
+      edit: false,
+      userData: {},
     };
   },
   methods: {
+    editState() {
+      if (this.edit) {
+        this.edit = false;
+      } else {
+        this.edit = true;
+      }
+    },
   },
   computed: {
     ...mapState(["user"]),

@@ -3,14 +3,19 @@
     <div class="header row"></div>
 
     <div class="text-col my-auto">
-      <p>section: <a>section</a></p>
-      <p>state: <a style="color: #036be4">state</a></p>
+      <p>
+        section:
+        <a v-for="sec in article.section" :key="sec.id">{{ sec.name }}</a>
+      </p>
+      <p>
+        state: <a style="color: #036be4">{{ article.state }}</a>
+      </p>
     </div>
     <div class="info row justify-content-around">
       <div class="user-icon">
-        <UserIcon />
+        <UserIcon :user="user" />
       </div>
-      <div>
+      <div v-if="article.state === rejected">
         <rejected />
       </div>
     </div>
@@ -18,16 +23,24 @@
     <div class="box-title row">
       <!-- <div>Welcome, {{ username.substring(0, 8) + ".." }}</div> -->
     </div>
-    <h2>{{ title.length > 60 ? title.substring(0, 60) + "..." : title }}</h2>
+    <h2>
+      {{
+        article.title.length > 60
+          ? article.title.substring(0, 60) + "..."
+          : article.title
+      }}
+    </h2>
   </div>
 </template>
 
 <script>
 import UserIcon from "../global/UserIcon";
 import Rejected from "../SVG/rejected.vue";
+import { mapState } from "vuex";
 // import Comment from "../SVG/comment.vue";
 export default {
   name: "NewsBox",
+  props: ["article"],
   data: function () {
     return {
       title:
@@ -38,6 +51,9 @@ export default {
     UserIcon,
     Rejected,
     // Comment,
+  },
+  computed: {
+    ...mapState(["user"]),
   },
 };
 </script>
