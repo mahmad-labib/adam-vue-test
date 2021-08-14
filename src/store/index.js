@@ -22,6 +22,7 @@ export default createStore({
     activeRole: null,
     userPendingArticles: [],
     allPendingArticles: [],
+    myArticles: []
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -62,7 +63,6 @@ export default createStore({
       state.msg = result;
     },
     async getUsers(state, result) {
-      console.log('getusers', result.data);
       var pages = await axios.get("api/v1/admin/usersPages");
       var pagesArr = [];
       for (let index = 1; index <= pages.data.pages; index++) {
@@ -90,8 +90,11 @@ export default createStore({
       return router.push("/admin/myPendingArticles");
     },
     allPendingArticles(state, result) {
-      console.log(result.data.articles);
       state.allPendingArticles = result.data.articles;
+    },
+    myArticles(state, result) {
+      console.log(result);
+      state.myArticles = result.data.articles;
     }
   },
 
@@ -182,7 +185,6 @@ export default createStore({
         });
     },
     editUser({ commit }, data) {
-      console.log("store", data.user);
       axios
         .post(`api/v1/admin/users/${data.user.id}?_method=PUT`, data.user)
         .then((result) => {
@@ -202,6 +204,11 @@ export default createStore({
     allPendingArticles({ commit }) {
       axios.get('api/v1/dashboard/pendingArticle').then((result) => {
         commit("allPendingArticles", result);
+      })
+    },
+    myArticles({ commit }) {
+      axios.get('api/v1/publicArticles').then((result) => {
+        commit("myArticles", result);
       })
     }
   },

@@ -1,23 +1,28 @@
 <template>
   <div class="user-blib row">
-      <div class="blib-left">
-        <img
-          src="https://images.unsplash.com/profile-1449177714116-d6cac59f5eab?dpr=1&auto=format&fit=crop&w=150&h=150&q=60&crop=faces&bg=fff"
-          alt=""
-        />
-      </div>
-      <div class="blib-right">
-        <p class="name">
-          {{'ruby rose'.length > 10 ? 'ruby rose'.substring(0, 10)+'..' : 'ruby rose'}}
-        </p>
-        <p class="description">nutritionist</p>
-      </div>
+    <div class="blib-left">
+      <img
+        src="https://images.unsplash.com/profile-1449177714116-d6cac59f5eab?dpr=1&auto=format&fit=crop&w=150&h=150&q=60&crop=faces&bg=fff"
+        alt=""
+      />
+    </div>
+    <div class="blib-right">
+      <p class="name">
+        {{
+          user.name.length > 10
+            ? user.name.substring(0, 10) + ".."
+            : user.name
+        }}
+      </p>
+      <p class="description">{{user.speciality}}</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "UserIcon",
+  props: ["user"],
 };
 </script>
 

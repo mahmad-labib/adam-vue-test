@@ -234,12 +234,12 @@
       </div>
     </div>
     <div class="row justify-content-around">
-      <news-box />
-      <news-box />
-      <news-box />
-      <news-box />
-      <news-box />
-      <news-box />
+      <news-box
+        v-for="article in myArticles"
+        :key="article.id"
+        :article="article"
+        :user="user"
+      />
     </div>
     <div class="row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">
@@ -257,6 +257,7 @@
 
 <script>
 // import axios from "axios";
+import store from "../../store";
 import { mapState } from "vuex";
 import NewsBox from "../../components/news/NewsBox.vue";
 export default {
@@ -278,12 +279,16 @@ export default {
         this.edit = true;
       }
     },
+    Articles() {
+      return store.dispatch("myArticles");
+    },
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user", "myArticles"]),
   },
   mounted: function () {
     this.data = this.user;
+    this.Articles();
   },
 };
 </script>

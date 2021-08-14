@@ -1,12 +1,12 @@
 <template>
   <div class="box">
     <div class="user-icon">
-      <UserIcon />
+      <UserIcon :user="user"/>
     </div>
     <img src="../../assets/valo.jpg" alt="" />
     <div class="box-title">
       <!-- <div>Welcome, {{ username.substring(0, 8) + ".." }}</div> -->
-      <h2>{{ title.length > 60 ? title.substring(0, 60) + "..." : title }}</h2>
+      <h2>{{ article.title.length > 60 ? article.title.substring(0, 60) + "..." : article.title }}</h2>
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@
 import UserIcon from "../global/UserIcon";
 export default {
   name: "NewsBox",
+  props:["article", "user"],
   data: function () {
     return {
       title:

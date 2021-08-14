@@ -13,7 +13,7 @@
     </div>
     <div class="info row justify-content-around">
       <div class="user-icon">
-        <UserIcon :user="user" />
+        <UserIcon :user="article.user" />
       </div>
       <div v-if="article.state === rejected">
         <rejected />
@@ -36,7 +36,7 @@
 <script>
 import UserIcon from "../global/UserIcon";
 import Rejected from "../SVG/rejected.vue";
-import { mapState } from "vuex";
+
 // import Comment from "../SVG/comment.vue";
 export default {
   name: "NewsBox",
@@ -51,9 +51,6 @@ export default {
     UserIcon,
     Rejected,
     // Comment,
-  },
-  computed: {
-    ...mapState(["user"]),
   },
 };
 </script>

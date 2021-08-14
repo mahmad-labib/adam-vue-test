@@ -7,18 +7,22 @@
       </router-link>
     </div>
     <div class="col-md-4 my-auto">
-      <UserIcon class="user-icon" />
+      <UserIcon class="user-icon" :user="user"/>
     </div>
   </div>
 </template>
 <script>
 import UserIcon from "../global/UserIcon";
 import Akhbar from "../SVG/akhbar";
+import { mapState } from "vuex";
 export default {
   name: "Navbar",
   components: {
     UserIcon,
     Akhbar,
+  },
+  computed: {
+    ...mapState(["user"]),
   },
 };
 </script>
