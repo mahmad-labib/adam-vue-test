@@ -4,7 +4,7 @@
     class="carousel slide"
     data-ride="carousel"
   >
-    <ol class="carousel-indicators">
+    <!-- <ol class="carousel-indicators">
       <li
         data-target="#carouselExampleIndicators"
         data-slide-to="0"
@@ -12,32 +12,28 @@
       ></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
+    </ol> -->
 
     <div class="carousel-inner">
-      <div class="user-icon">
-        <UserIcon />
-      </div>
-      <div class="carousel-item active">
+      <div
+        class="carousel-item"
+        v-for="article in articles"
+        :key="article.id"
+        :id="article.id"
+      >
+        <div class="user-icon">
+          <UserIcon :user="article.creator[0]" />
+        </div>
         <img
           class="d-block"
-          src="https://images.unsplash.com/photo-1558220829-e07d17304ad1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-          alt="First slide"
+          v-for="image in article.images"
+          :key="image.path"
+          :src="'http://apiproject.stg' + '/storage/' + image.path"
         />
-      </div>
-      <div class="carousel-item">
-        <img
-          class="d-block"
-          src="https://cdn.pixabay.com/photo/2020/05/16/16/08/dandelion-5178095_960_720.jpg"
-          alt="Second slide"
-        />
-      </div>
-      <div class="carousel-item">
-        <img
-          class="d-block"
-          src="https://images.unsplash.com/photo-1485550409059-9afb054cada4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2002&q=80"
-          alt="Third slide"
-        />
+        <div class="carousel-caption">
+          <h3>{{ article.title }}</h3>
+          <!-- <p>{{article.section}}</p> -->
+        </div>
       </div>
     </div>
     <a
@@ -58,19 +54,37 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
-    <div class="carousel-caption">
-      <h5>Article Title</h5>
-      <p>the description of the title</p>
-    </div>
   </div>
 </template>
 
 <script>
 import UserIcon from "../global/UserIcon";
+// import { mapState } from "vuex";
 export default {
   name: "Carousel",
+  props: ["articles"],
+  data() {
+    return {
+      host: location.origin,
+    };
+  },
   components: {
     UserIcon,
+  },
+  methods: {
+    activeClass(articles) {
+      console.log("active", articles);
+      document.getElementById(this.articles[0].id).classList.add("active");
+    },
+  },
+  // watch: {
+  //   news: function () {
+  //     return this.activeClass(this.articles);
+  //   },
+  // },
+  mounted: function () {
+    this.activeClass();
+    // ...mapState(["news"]),
   },
 };
 </script>
@@ -117,8 +131,8 @@ export default {
 .blib-left {
   padding: 0px;
 }
-.user-icon{
-  .row{
+.user-icon {
+  .row {
     margin: 0px;
   }
   margin-left: 11px;

@@ -22,7 +22,8 @@ export default createStore({
     activeRole: null,
     userPendingArticles: [],
     allPendingArticles: [],
-    myArticles: []
+    myArticles: [],
+    news: [],
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -93,8 +94,10 @@ export default createStore({
       state.allPendingArticles = result.data.articles;
     },
     myArticles(state, result) {
-      console.log(result);
       state.myArticles = result.data.articles;
+    },
+    news(state, result) {
+      state.news = result.data.articles.data;
     }
   },
 
@@ -210,6 +213,12 @@ export default createStore({
       axios.get('api/v1/publicArticles').then((result) => {
         commit("myArticles", result);
       })
+    },
+    news({ commit }, data) {
+      axios.get('api/v1/news', { headers: { paginate: data.paginate } }).then((result) => {
+        console.log(result);
+        commit("news", result);
+      })
     }
   },
   getters: {
@@ -227,6 +236,9 @@ export default createStore({
     },
     article: (state) => {
       return state.current_article;
+    },
+    news: (state) => {
+      return state.news;
     }
   },
   modules: {},
