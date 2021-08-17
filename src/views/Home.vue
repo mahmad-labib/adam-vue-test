@@ -1,6 +1,6 @@
 <template>
   <div class="container home-container">
-    <Carousel v-if="news.length > 0" :articles="news" />
+    <Carousel v-if="news.length > 0" :articles="news.slice(0, 4)" />
     <div class="row justify-content-around">
       <NewsBox
         v-for="article in news"

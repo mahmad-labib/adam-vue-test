@@ -7,7 +7,7 @@ export default createStore({
   state: {
     user: Cookies.getJSON("user"),
     role: Cookies.getJSON("role"),
-    article: null,
+    article: {},
     route: "",
     message: "",
     users: [],
@@ -24,6 +24,7 @@ export default createStore({
     allPendingArticles: [],
     myArticles: [],
     news: [],
+    creatorProfile:{},
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -46,8 +47,9 @@ export default createStore({
       Cookies.set("credential", user.api_token, { expires: 1 });
       return router.push("/");
     },
-    SAVE_ARTICLE(state, article) {
-      state.article = article;
+    SAVE_ARTICLE(state, data) {
+      state.article = data.article;
+      return router.push("/article");
     },
     DELETE_USER(state) {
       state.user = null;
@@ -98,6 +100,11 @@ export default createStore({
     },
     news(state, result) {
       state.news = result.data.articles.data;
+    },
+    creatorProfile(state, result) {
+      console.log(result.data.creator);
+      state.creatorProfile = result.data.creator;
+      return router.push("/authorProfile");
     }
   },
 
@@ -117,18 +124,12 @@ export default createStore({
           throw new Error(`API ${error}`);
         });
     },
-    article({ dispatch, commit }, id) {
+    article({ commit }, data) {
       axios
-        .get(`api/v1/article/` + id.id)
+        .get(`api/v1/publicArticles/` + data.id)
         .then((result) => {
-          if (result.data.msg === "invalid-token") {
-            return dispatch('logout');
-          }
-          if (result.data.status == false) {
-            return result.data.msg;
-          } else {
-            commit("SAVE_ARTICLE", result.data);
-          }
+          console.log('news', result);
+          commit("SAVE_ARTICLE", result.data);
         })
         .catch((error) => {
           throw new Error(`API ${error}`);
@@ -216,8 +217,12 @@ export default createStore({
     },
     news({ commit }, data) {
       axios.get('api/v1/news', { headers: { paginate: data.paginate } }).then((result) => {
-        console.log(result);
         commit("news", result);
+      })
+    },
+    creatorProfile({ commit }, data) {
+      axios.get('api/v1/creator/' + data.id).then((result) => {
+        commit("creatorProfile", result);
       })
     }
   },

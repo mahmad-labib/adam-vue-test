@@ -4,20 +4,21 @@
     class="carousel slide"
     data-ride="carousel"
   >
-    <!-- <ol class="carousel-indicators">
+    <ol class="carousel-indicators">
       <li
-        data-target="#carouselExampleIndicators"
-        data-slide-to="0"
-        class="active"
+        v-for="(article, index) in articles"
+        :key="article.id"
+        :data-target="'#' + article.id"
+        :data-slide-to="index"
+        :class="index == 0 ? 'active' : ''"
       ></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol> -->
+    </ol>
 
     <div class="carousel-inner">
       <div
         class="carousel-item"
         v-for="article in articles"
+        @click="openArticle(article.id)"
         :key="article.id"
         :id="article.id"
       >
@@ -59,6 +60,7 @@
 
 <script>
 import UserIcon from "../global/UserIcon";
+import store from "../../store";
 // import { mapState } from "vuex";
 export default {
   name: "Carousel",
@@ -66,6 +68,7 @@ export default {
   data() {
     return {
       host: location.origin,
+      slide: 0,
     };
   },
   components: {
@@ -76,12 +79,15 @@ export default {
       console.log("active", articles);
       document.getElementById(this.articles[0].id).classList.add("active");
     },
+    openArticle(id) {
+      return store.dispatch("article", {
+        id,
+      });
+    },
+    slideIncrease() {
+      this.slide = this.slide + 1;
+    },
   },
-  // watch: {
-  //   news: function () {
-  //     return this.activeClass(this.articles);
-  //   },
-  // },
   mounted: function () {
     this.activeClass();
     // ...mapState(["news"]),

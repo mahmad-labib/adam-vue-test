@@ -4,19 +4,20 @@
       <div class="col-md-1"></div>
       <div class="col-md title">
         <p>{{ article.title }}</p>
-        <p>Main category > child</p>
+        <p>Category > {{ article.section[0].name }}</p>
       </div>
       <div class="col-md autour-bilb">
         <div class="row justify-content-end">
-          <UserIcon />
+          <UserIcon
+            :user="article.creator[0]"
+            @click="creatorProfile(article.creator[0].id)"
+          />
         </div>
       </div>
       <div class="col-md-1"></div>
     </div>
     <div class="row body-row">
-      <div class="col-md-10" v-html="article.content">
-
-      </div>
+      <div class="col-md-12" v-html="article.content"></div>
     </div>
   </div>
 </template>
@@ -24,27 +25,20 @@
 <script>
 import store from "../store";
 import UserIcon from "@/components/global/UserIcon";
+import { mapState } from "vuex";
+
 export default {
   name: "article",
-  data: () => {
-    return { article_id: 21, article: {} };
-  },
+  data: () => {},
   components: {
     UserIcon,
   },
-  mounted() {
-    console.log("fired");
-    this.GetArticle();
-  },
-  watch: {
-    "$store.state.article"(nv) {
-      return (this.article = nv.article);
-    },
+  computed: {
+    ...mapState(["article"]),
   },
   methods: {
-    GetArticle() {
-      var id = this.article_id;
-      return store.dispatch("article", {
+    creatorProfile(id) {
+      return store.dispatch("creatorProfile", {
         id,
       });
     },

@@ -287,7 +287,6 @@ export default {
     ...mapState(["user", "myArticles"]),
   },
   mounted: function () {
-    this.data = this.user;
     this.Articles();
   },
 };

@@ -1,29 +1,45 @@
 <template>
-  <div class="box">
+  <div class="box" @click="openArticle(article.id)">
     <div class="user-icon">
-      <UserIcon :user="user"/>
+      <UserIcon :user="user" />
     </div>
-    <img src="../../assets/valo.jpg" alt="" />
+    <img
+      :src="'http://apiproject.stg/storage/' + article.images[0].path"
+      alt=""
+    />
     <div class="box-title">
       <!-- <div>Welcome, {{ username.substring(0, 8) + ".." }}</div> -->
-      <h2>{{ article.title.length > 60 ? article.title.substring(0, 60) + "..." : article.title }}</h2>
+      <h2>
+        {{
+          article.title.length > 60
+            ? article.title.substring(0, 60) + "..."
+            : article.title
+        }}
+      </h2>
     </div>
   </div>
 </template>
 
 <script>
 import UserIcon from "../global/UserIcon";
+import store from "../../store";
+// import router from '../../router'
+
 export default {
   name: "NewsBox",
-  props:["article", "user"],
+  props: ["article", "user"],
   data: function () {
-    return {
-      title:
-        "How We Updated 275 Knowledge Base Aricles Knowledge Base Aricles Knowledge Base Aricles  in 3 Days",
-    };
+    return {};
   },
   components: {
     UserIcon,
+  },
+  methods: {
+    openArticle(id) {
+      return store.dispatch("article", {
+        id,
+      });
+    },
   },
 };
 </script>
@@ -34,7 +50,7 @@ export default {
   width: 398px;
   height: 302px;
   margin-bottom: 50px;
-  .row{
+  .row {
     margin: 0px;
   }
 }
