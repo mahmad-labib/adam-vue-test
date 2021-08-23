@@ -30,6 +30,7 @@
         class="form-control"
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-lg"
+        v-model="title"
       />
     </div>
     <button @click="$refs.getFile.click()" id="upload" hidden>
@@ -86,6 +87,8 @@ export default {
       // define options
       sectionsOptions: [],
       userSections: [],
+      //
+      title: "",
     };
   },
   computed: {
@@ -127,7 +130,7 @@ export default {
       var p = document.createElement("p");
       p.innerHTML = Article;
       var formData = new FormData();
-
+      var title = this.title;
       // let images = [];
       for (var i = 0; i < this.selectedFile.length; i++) {
         let file = this.selectedFile[i];
@@ -135,7 +138,7 @@ export default {
       }
       formData.append("content", p.innerHTML);
       formData.append("section_id", 1);
-      formData.append("title", "vue article");
+      formData.append("title", title);
 
       // var doc = p.innerHTML;
       return store.dispatch("PublishArticle", {

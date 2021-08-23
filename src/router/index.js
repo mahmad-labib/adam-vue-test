@@ -79,12 +79,12 @@ const routes = [
     component: SignUp,
   },
   {
-    path: "/article",
+    path: "/article/:id",
     name: "Article",
     component: Article,
   },
   {
-    path: "/authorProfile",
+    path: "/authorProfile/:id",
     name: "AuthorProfile",
     component: AuthorProfile,
   },
@@ -148,6 +148,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  linkActiveClass: 'active'
 });
 
 export default router;

@@ -71,7 +71,7 @@ export default {
     Akhbar,
     Menu,
   },
-  data: () => {
+  data: function () {
     return {
       userData: {},
       credential: {},

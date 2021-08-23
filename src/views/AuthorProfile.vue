@@ -1,6 +1,5 @@
 <template>
-  <div class="container profile-container">
-    <!-- <div class="row justify-content-around"> -->
+  <div v-if="creatorProfile.id" class="container profile-container">
     <div class="profile-cloud row mx-auto">
       <div class="col-md-3">
         <div class="capsule">
@@ -81,7 +80,7 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
+
     <div class="row articles">
       <div class="row mx-auto search-row">
         <div class="input-group mb-3">
@@ -119,12 +118,13 @@
       </div>
     </div>
     <div class="row justify-content-around">
-      <NewsBox
+      <router-link
         v-for="article in creatorProfile.articles"
         :key="article.id"
-        :article="article"
-        :user="creatorProfile"
-      />
+        :to="{ path: `/article/${article.id}` }"
+      >
+        <NewsBox :article="article" :user="creatorProfile" />
+      </router-link>
     </div>
     <div class="row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">
@@ -138,15 +138,42 @@
       </nav>
     </div>
   </div>
+  <div v-else class="container profile-container">
+    <div
+      class="spinner-grow text-primary"
+      style="width: 3rem; height: 3rem"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 </template>
 
 <script>
 import NewsBox from "@/components/news/NewsBox";
+import store from "../store";
 import { mapState } from "vuex";
+// import route from 'vue-router';
 export default {
   name: "AuthorProfile",
   components: {
     NewsBox,
+  },
+  data: () => {
+    return {
+      // userId: ,
+    };
+  },
+  methods: {
+    getUser() {
+      console.log(this.$route.params.id);
+      return store.dispatch("creatorProfile", {
+        id: this.$route.params.id,
+      });
+    },
+  },
+  mounted() {
+    this.getUser();
   },
   computed: {
     ...mapState(["creatorProfile"]),
@@ -158,6 +185,7 @@ export default {
 .profile-container {
   background-color: white;
   max-width: 1364px;
+  min-height: 50vh;
   margin-top: 15px;
   padding-top: 32px;
 }

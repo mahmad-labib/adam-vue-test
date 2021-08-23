@@ -1,25 +1,30 @@
 <template>
-  <div class="container article-conatiner">
-    <div class="row head-row">
-      <div class="col-md-1"></div>
-      <div class="col-md title">
-        <p>{{ article.title }}</p>
-        <p>Category > {{ article.section[0].name }}</p>
-      </div>
-      <div class="col-md autour-bilb">
-        <div class="row justify-content-end">
-          <UserIcon
-            :user="article.creator[0]"
-            @click="creatorProfile(article.creator[0].id)"
-          />
+  <transition name="fade">
+    <div v-if="article.id" class="container article-conatiner">
+      <div class="row head-row">
+        <div class="col-md-1"></div>
+        <div class="col-md-8 title">
+          <p>{{ article.title }}</p>
+          <p>Category > {{ article.section[0].name }}</p>
         </div>
+        <div class="col-md autour-bilb">
+          <div class="row justify-content-end">
+            <router-link
+              :to="{
+                path: `/authorProfile/${article.creator[0].id}`,
+              }"
+            >
+              <UserIcon :user="article.creator[0]" />
+            </router-link>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
       </div>
-      <div class="col-md-1"></div>
+      <div class="row body-row">
+        <div class="col-md-12 content" v-html="article.content"></div>
+      </div>
     </div>
-    <div class="row body-row">
-      <div class="col-md-12" v-html="article.content"></div>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -37,11 +42,22 @@ export default {
     ...mapState(["article"]),
   },
   methods: {
+    Article() {
+      return store.dispatch("article", {
+        id: this.$route.params.id,
+      });
+    },
     creatorProfile(id) {
       return store.dispatch("creatorProfile", {
         id,
       });
     },
+  },
+  mounted: function () {
+    this.Article();
+  },
+  unmounted: function () {
+    this.$store.state.article = {};
   },
 };
 </script>
@@ -60,7 +76,7 @@ export default {
       color: #707070;
     }
     p:first-of-type {
-      font-size: 50px;
+      font-size: 30px;
       font-weight: bold;
       color: black;
     }
@@ -68,5 +84,9 @@ export default {
   .autour-bilb {
     align-items: flex-end;
   }
+}
+.content {
+  font-size: 21px;
+  font-weight: 400;
 }
 </style>

@@ -234,12 +234,15 @@
       </div>
     </div>
     <div class="row justify-content-around">
-      <news-box
+      <router-link
         v-for="article in myArticles"
         :key="article.id"
-        :article="article"
-        :user="user"
-      />
+        :to="{
+          path: `/article/${article.id}`,
+        }"
+      >
+        <news-box :article="article" :user="user" />
+      </router-link>
     </div>
     <div class="row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">

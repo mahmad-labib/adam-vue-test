@@ -4,7 +4,7 @@
     class="carousel slide"
     data-ride="carousel"
   >
-    <ol class="carousel-indicators">
+    <!-- <ol class="carousel-indicators">
       <li
         v-for="(article, index) in articles"
         :key="article.id"
@@ -12,31 +12,34 @@
         :data-slide-to="index"
         :class="index == 0 ? 'active' : ''"
       ></li>
-    </ol>
-
-    <div class="carousel-inner">
-      <div
-        class="carousel-item"
-        v-for="article in articles"
-        @click="openArticle(article.id)"
-        :key="article.id"
-        :id="article.id"
-      >
-        <div class="user-icon">
-          <UserIcon :user="article.creator[0]" />
-        </div>
-        <img
-          class="d-block"
-          v-for="image in article.images"
-          :key="image.path"
-          :src="'http://apiproject.stg' + '/storage/' + image.path"
-        />
-        <div class="carousel-caption">
-          <h3>{{ article.title }}</h3>
-          <!-- <p>{{article.section}}</p> -->
+    </ol> -->
+    <router-link
+      v-for="(article, index) in articles"
+      :key="article.id"
+      :to="{ path: `/article/${article.id}` }"
+    >
+      <div class="carousel-inner">
+        <div
+          class="carousel-item"
+          :class="index == 0 ? 'active' : ''"
+          :id="article.id"
+        >
+          <div class="user-icon">
+            <UserIcon :user="article.creator[0]" />
+          </div>
+          <img
+            class="d-block"
+            v-for="image in article.images"
+            :key="image.path"
+            :src="'http://apiproject.stg' + '/storage/' + image.path"
+          />
+          <div class="carousel-caption">
+            <h3>{{ article.title }}</h3>
+            <!-- <p>{{article.section}}</p> -->
+          </div>
         </div>
       </div>
-    </div>
+    </router-link>
     <a
       class="carousel-control carousel-control-prev"
       href="#carouselExampleIndicators"
@@ -60,8 +63,7 @@
 
 <script>
 import UserIcon from "../global/UserIcon";
-import store from "../../store";
-// import { mapState } from "vuex";
+
 export default {
   name: "Carousel",
   props: ["articles"],
@@ -75,21 +77,16 @@ export default {
     UserIcon,
   },
   methods: {
-    activeClass(articles) {
-      console.log("active", articles);
+    activeClass() {
+      console.log("active", document.getElementById(this.articles[0].id));
       document.getElementById(this.articles[0].id).classList.add("active");
-    },
-    openArticle(id) {
-      return store.dispatch("article", {
-        id,
-      });
     },
     slideIncrease() {
       this.slide = this.slide + 1;
     },
   },
   mounted: function () {
-    this.activeClass();
+    // this.activeClass();
     // ...mapState(["news"]),
   },
 };

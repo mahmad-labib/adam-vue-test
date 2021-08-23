@@ -1,5 +1,5 @@
 <template>
-  <div class="box" @click="openArticle(article.id)">
+  <div class="box">
     <div class="user-icon">
       <UserIcon :user="user" />
     </div>
@@ -28,9 +28,7 @@ import store from "../../store";
 export default {
   name: "NewsBox",
   props: ["article", "user"],
-  data: function () {
-    return {};
-  },
+  
   components: {
     UserIcon,
   },

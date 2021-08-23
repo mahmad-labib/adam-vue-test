@@ -23,3 +23,4 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 createApp(app).use(store).use(router).provide('Cookies', Cookies).mount("#app");
 app.config.silent = true
 
+app.prototype.$scrollToTop = () => window.scrollTo(0,0)

@@ -24,7 +24,7 @@ export default createStore({
     allPendingArticles: [],
     myArticles: [],
     news: [],
-    creatorProfile:{},
+    creatorProfile: {},
   },
   mutations: {
     SAVE_USER(state, data) {
@@ -49,7 +49,6 @@ export default createStore({
     },
     SAVE_ARTICLE(state, data) {
       state.article = data.article;
-      return router.push("/article");
     },
     DELETE_USER(state) {
       state.user = null;
@@ -104,7 +103,6 @@ export default createStore({
     creatorProfile(state, result) {
       console.log(result.data.creator);
       state.creatorProfile = result.data.creator;
-      return router.push("/authorProfile");
     }
   },
 
@@ -128,7 +126,6 @@ export default createStore({
       axios
         .get(`api/v1/publicArticles/` + data.id)
         .then((result) => {
-          console.log('news', result);
           commit("SAVE_ARTICLE", result.data);
         })
         .catch((error) => {
@@ -221,6 +218,7 @@ export default createStore({
       })
     },
     creatorProfile({ commit }, data) {
+      console.log(data);
       axios.get('api/v1/creator/' + data.id).then((result) => {
         commit("creatorProfile", result);
       })
