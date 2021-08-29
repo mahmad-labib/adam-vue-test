@@ -1,21 +1,12 @@
 <template>
   <div
-    id="carouselExampleIndicators"
+    id="carouselExampleInterval"
     class="carousel slide"
-    data-ride="carousel"
+    data-bs-ride="carousel"
   >
-    <!-- <ol class="carousel-indicators">
-      <li
-        v-for="(article, index) in articles"
-        :key="article.id"
-        :data-target="'#' + article.id"
-        :data-slide-to="index"
-        :class="index == 0 ? 'active' : ''"
-      ></li>
-    </ol> -->
     <router-link
       v-for="(article, index) in articles"
-      :key="article.id"
+      :key="index"
       :to="{ path: `/article/${article.id}` }"
     >
       <div class="carousel-inner">
@@ -29,9 +20,9 @@
           </div>
           <img
             class="d-block"
-            v-for="image in article.images"
-            :key="image.path"
-            :src="'http://apiproject.stg' + '/storage/' + image.path"
+            :src="
+              'http://apiproject.stg' + '/storage/' + article.images[0].path
+            "
           />
           <div class="carousel-caption">
             <h3>{{ article.title }}</h3>

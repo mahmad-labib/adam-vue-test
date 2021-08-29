@@ -215,6 +215,7 @@ export default createStore({
     news({ commit }, data) {
       axios.get('api/v1/news', { headers: { paginate: data.paginate } }).then((result) => {
         commit("news", result);
+        console.log(result.data.articles.data)
       })
     },
     creatorProfile({ commit }, data) {

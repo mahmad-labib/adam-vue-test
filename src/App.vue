@@ -7,17 +7,17 @@
     </div>
     <div class="col-md-9">
       <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
+        <!-- <transition name="route"> -->
+        <component :is="Component" />
+        <!-- </transition> -->
       </router-view>
     </div>
   </div>
 
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
-      <component :is="Component" />
-    </transition>
+  <router-view v-else v-slot="{ Component }">
+    <!-- <transition name="router-anim" @after-enter="afterEnter"> -->
+    <component :is="Component" />
+    <!-- </transition> -->
   </router-view>
 </template>
 
@@ -39,6 +39,7 @@ export default {
     AdminNavbar,
     SideMenu,
   },
+  methods: {},
   computed: {
     links: function () {
       return this.$route.fullPath.includes("admin");
@@ -48,6 +49,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
 #app {
   font-family: "Montserrat", sans-serif;
   font-weight: normal;
@@ -65,6 +67,37 @@ export default {
     margin-top: 20px;
     margin-right: 0px;
     margin-left: 0px;
+  }
+  overflow-y: scroll;
+}
+/* route transitions */
+.router-anim-enter-active {
+  scroll-behavior: auto;
+  animation: coming 1s;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+.router-anim-leave-active {
+  animation: going 1s;
+}
+
+@keyframes going {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+@keyframes coming {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 </style>
