@@ -247,11 +247,9 @@
     <div class="row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
           <li class="page-item"><a class="page-link" href="#">1</a></li>
           <li class="page-item"><a class="page-link" href="#">2</a></li>
           <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
       </nav>
     </div>
@@ -272,6 +270,7 @@ export default {
     return {
       edit: false,
       userData: {},
+      paginate: 1,
     };
   },
   methods: {
@@ -283,7 +282,9 @@ export default {
       }
     },
     Articles() {
-      return store.dispatch("myArticles");
+      return store.dispatch("myArticles", {
+        paginate: this.paginate,
+      });
     },
   },
   computed: {

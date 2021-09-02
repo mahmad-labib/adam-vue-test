@@ -65,19 +65,14 @@ export default createStore({
       state.msg = result;
     },
     async getUsers(state, result) {
-      var pages = await axios.get("api/v1/admin/usersPages");
-      var pagesArr = [];
-      for (let index = 1; index <= pages.data.pages; index++) {
-        pagesArr.push(index);
-      }
-      state.pages_info.currentPage = result.data.users.current_page;
-      state.pages_info.lastPage = result.data.users.last_page;
       state.users = result.data.users.data;
+      state.users.lastPage = result.data.users.last_page;
+      state.users.currentPage = result.data.users.current_page;
     },
     searchUsers(state, result) {
       state.users = result.data.users.data;
-      state.pages_info.currentPage = result.data.users.current_page;
-      state.pages_info.lastPage = result.data.users.last_page;
+      state.users.lastPage = result.data.users.last_page;
+      state.users.currentPage = result.data.users.current_page;
     },
     editUser() {
       return router.push("/admin/usersList");
@@ -95,7 +90,8 @@ export default createStore({
       state.allPendingArticles = result.data.articles;
     },
     myArticles(state, result) {
-      state.myArticles = result.data.articles;
+      state.myArticles = result.data.articles.data[0].articles;
+      console.log(result)
     },
     news(state, result) {
       state.news = result.data.articles.data;
@@ -207,8 +203,8 @@ export default createStore({
         commit("allPendingArticles", result);
       })
     },
-    myArticles({ commit }) {
-      axios.get('api/v1/publicArticles').then((result) => {
+    myArticles({ commit }, data) {
+      axios.get('api/v1/publicArticles', { paginate: data.paginate }).then((result) => {
         commit("myArticles", result);
       })
     },

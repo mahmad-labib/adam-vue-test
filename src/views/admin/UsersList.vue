@@ -98,18 +98,23 @@
     <div class="row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li @click="navBtn(-1)" class="page-item">
+            <a class="page-link" href="#">Previous</a>
+          </li>
           <li
-            @click="
-              searchState ? search(searchData, null, page) : getUsers(page)
-            "
-            v-for="page in pagesInfo.lastPage"
+            v-for="page in usersData.lastPage"
             :key="page"
             class="page-item"
+            :class="page == usersData.currentPage ? 'active' : ''"
+            @click="
+              searchState ? search(searchData, $event, page) : getUsers(page)
+            "
           >
             <a class="page-link" href="#">{{ page }}</a>
           </li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          <li @click="navBtn(1)" class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -124,10 +129,11 @@ export default {
   name: "UsersList",
   data() {
     return {
-      users: this.usersData,
       page: 1,
       searchState: false,
       searchData: { name: null, section: null, role: null },
+      currentPage: 0,
+      lastPage: 0,
     };
   },
   methods: {
@@ -138,7 +144,7 @@ export default {
     },
     search(data, event, page) {
       event ? event.preventDefault() : null;
-      page ? (data.paginate = page) : (data.paginate = data.page);
+      page ? (data.paginate = page) : (data.paginate = 1);
       this.searchState = true;
       return store.dispatch("searchUsers", {
         data,
@@ -158,6 +164,16 @@ export default {
       this.searchData.sections = null;
       this.searchData.role = null;
       this.getUsers(this.page);
+    },
+    navBtn(num) {
+      var paginate = this.usersData.currentPage + num;
+      if (paginate > this.usersData.lastPage || paginate < 1) {
+        return null;
+      } else {
+        this.searchState
+          ? this.search(this.searchData, null, paginate)
+          : this.getUsers(paginate);
+      }
     },
   },
   created() {

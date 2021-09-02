@@ -23,6 +23,9 @@
               <router-link v-slot="{ navigate }" to="/">
                 <li class="btn" @click="navigate">Home</li>
               </router-link>
+              <li class="btn">About Us</li>
+              <!-- <li class="btn">Test</li> -->
+              <li class="btn">Contact Us</li>
               <router-link
                 v-if="role === 'admin' || role === 'moderator'"
                 v-slot="{ navigate }"
@@ -30,20 +33,10 @@
               >
                 <li class="btn" @click="navigate">Admin Panel</li>
               </router-link>
-              <li class="btn">About Us</li>
-              <!-- <li class="btn">Test</li> -->
-              <li class="btn">Contact Us</li>
-              <router-link
-                v-if="role === 'admin'"
-                v-slot="{ navigate }"
-                to="/authorProfile"
-              >
-                <li class="btn" @click="navigate">Admin</li>
-              </router-link>
               <router-link v-if="!user" v-slot="{ navigate }" to="/login">
                 <li class="btn" @click="navigate">Login</li>
               </router-link>
-              <li class="btn" v-if="user" @click="Logout">Logout</li>
+              <li class="btn" v-else @click="Logout">Logout</li>
             </ul>
           </div>
         </div>
