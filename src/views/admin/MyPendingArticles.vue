@@ -2,7 +2,7 @@
   <div class="wrapper container-full">
     <div class="row justify-content-center title">My Pending Articles</div>
     <div class="row justify-content-around">
-      <box v-for="article in articles" :key="article.id" :article="article"/>
+      <box v-for="article in articles" :key="article.id" :article="article" />
     </div>
   </div>
 </template>
@@ -18,9 +18,9 @@ export default {
   methods: {
     getArticle() {
       return store.dispatch("userPendingArticles");
-    }
+    },
   },
-  mounted:function() {
+  mounted: function () {
     this.getArticle();
   },
   computed: {

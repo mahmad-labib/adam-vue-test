@@ -90,15 +90,23 @@ export default createStore({
       state.allPendingArticles = result.data.articles;
     },
     myArticles(state, result) {
-      state.myArticles = result.data.articles.data[0].articles;
-      console.log(result)
+      console.log(result.data.articles.data);
+      state.myArticles = result.data.articles.data;
+      state.myArticles.lastPage = result.data.articles.last_page;
+      state.myArticles.currentPage = result.data.articles.current_page;
     },
     news(state, result) {
+      console.log(result);
       state.news = result.data.articles.data;
+      // state.news.lastPage = result.articles.last_page;
+      // state.news.currentPage = result.articles.current_page;
     },
     creatorProfile(state, result) {
       console.log(result.data.creator);
       state.creatorProfile = result.data.creator;
+    },
+    deleteMyPendingArticle(state, result) {
+      console.log(result);
     }
   },
 
@@ -204,20 +212,24 @@ export default createStore({
       })
     },
     myArticles({ commit }, data) {
-      axios.get('api/v1/publicArticles', { paginate: data.paginate }).then((result) => {
+      axios.get('api/v1/publicArticles', { headers: { paginate: data.paginate } }).then((result) => {
         commit("myArticles", result);
       })
     },
     news({ commit }, data) {
       axios.get('api/v1/news', { headers: { paginate: data.paginate } }).then((result) => {
         commit("news", result);
-        console.log(result.data.articles.data)
       })
     },
     creatorProfile({ commit }, data) {
       console.log(data);
       axios.get('api/v1/creator/' + data.id).then((result) => {
         commit("creatorProfile", result);
+      })
+    },
+    deleteMyPendingArticle({ commit }, data) {
+      axios.delete('api/v1/dashboard/submitToPendingArticles/' + data.id).then((result) => {
+        commit("deleteMyPendingArticle", result);
       })
     }
   },

@@ -3,7 +3,12 @@
     <div class="header row"></div>
 
     <div class="text-col my-auto">
-      <a style="color: #036be4">Waiting Confirm</a>
+      <a style="color: #036be4"
+        >Waiting Confirm
+        <div @click="this.delete(article.id)" class="btn btn-danger">
+          delete
+        </div>
+      </a>
     </div>
     <div class="info row justify-content-around">
       <div class="icon">
@@ -26,6 +31,7 @@
 
 <script>
 import router from "../../router";
+import store from "../../store";
 // import Rejected from "../SVG/rejected.vue";
 import Comment from "../SVG/comment.vue";
 export default {
@@ -45,6 +51,11 @@ export default {
     openEditor(article) {
       this.$store.state.current_article = article;
       return router.push({ path: "editArticle" });
+    },
+    delete(id) {
+      return store.dispatch("deleteMyPendingArticle", {
+        id,
+      });
     },
   },
 };

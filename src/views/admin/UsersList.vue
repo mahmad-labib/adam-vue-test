@@ -132,8 +132,6 @@ export default {
       page: 1,
       searchState: false,
       searchData: { name: null, section: null, role: null },
-      currentPage: 0,
-      lastPage: 0,
     };
   },
   methods: {

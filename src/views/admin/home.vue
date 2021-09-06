@@ -247,9 +247,21 @@
     <div class="row justify-content-center">
       <nav aria-label="Page navigation pagination-wrapper">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li @click="navBtn(-1)" class="page-item">
+            <a class="page-link" href="#">Previous</a>
+          </li>
+          <li
+            v-for="page in myArticles.lastPage"
+            :key="page"
+            class="page-item"
+            :class="page == myArticles.currentPage ? 'active' : ''"
+            @click="Articles(page)"
+          >
+            <a class="page-link" href="#">{{ page }}</a>
+          </li>
+          <li @click="navBtn(1)" class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -269,8 +281,7 @@ export default {
   data() {
     return {
       edit: false,
-      userData: {},
-      paginate: 1,
+      page: 1,
     };
   },
   methods: {
@@ -281,17 +292,25 @@ export default {
         this.edit = true;
       }
     },
-    Articles() {
+    Articles(paginate) {
       return store.dispatch("myArticles", {
-        paginate: this.paginate,
+        paginate: paginate,
       });
+    },
+    navBtn(num) {
+      var paginate = this.myArticles.currentPage + num;
+      if (paginate > this.myArticles.lastPage || paginate < 1) {
+        return null;
+      } else {
+        this.Articles(paginate);
+      }
     },
   },
   computed: {
     ...mapState(["user", "myArticles"]),
   },
   mounted: function () {
-    this.Articles();
+    this.Articles(1);
   },
 };
 </script>

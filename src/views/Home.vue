@@ -1,6 +1,5 @@
 <template>
   <div class="container home-container">
-   
     <div class="row justify-content-around">
       <router-link
         v-for="article in news"
