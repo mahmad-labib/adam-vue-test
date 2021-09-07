@@ -25,8 +25,13 @@ export default createStore({
     myArticles: [],
     news: [],
     creatorProfile: {},
+    err: {},
   },
   mutations: {
+    err(state, err) {
+      // console.log(err);
+      state.err = err
+    },
     SAVE_USER(state, data) {
       if (data.status == false) {
         return (state.message = data.msg);
@@ -90,22 +95,27 @@ export default createStore({
       state.allPendingArticles = result.data.articles;
     },
     myArticles(state, result) {
-      console.log(result.data.articles.data);
       state.myArticles = result.data.articles.data;
       state.myArticles.lastPage = result.data.articles.last_page;
       state.myArticles.currentPage = result.data.articles.current_page;
     },
     news(state, result) {
-      console.log(result);
       state.news = result.data.articles.data;
       // state.news.lastPage = result.articles.last_page;
       // state.news.currentPage = result.articles.current_page;
     },
     creatorProfile(state, result) {
-      console.log(result.data.creator);
       state.creatorProfile = result.data.creator;
     },
     deleteMyPendingArticle(state, result) {
+      console.log(result);
+    },
+    valid(state, result) {
+      if (!result.data.valid) {
+        this.commit('DELETE_USER')
+      }
+    },
+    updateUser(state, result){
       console.log(result);
     }
   },
@@ -157,18 +167,18 @@ export default createStore({
           commit("publishedArticleError", error);
         });
     },
-    getUsers({ dispatch, commit }, data) {
+    getUsers({ commit }, data) {
       // axios.headers.common["paginate"] = data.paginate;
       axios
         .get("api/v1/admin/users", { headers: { paginate: data.paginate } })
         .then((result) => {
-          if (result.data.msg == "invalid-token") {
-            return dispatch('logout');
-          }
+          // if (result.data.msg == "invalid-token") {
+          //   return dispatch('logout');
+          // }
           commit("getUsers", result);
         })
         .catch((error) => {
-          commit("getUsers", error);
+          commit("err", error);
         });
     },
     getUser({ dispatch, commit }, data) {
@@ -222,7 +232,6 @@ export default createStore({
       })
     },
     creatorProfile({ commit }, data) {
-      console.log(data);
       axios.get('api/v1/creator/' + data.id).then((result) => {
         commit("creatorProfile", result);
       })
@@ -231,7 +240,18 @@ export default createStore({
       axios.delete('api/v1/dashboard/submitToPendingArticles/' + data.id).then((result) => {
         commit("deleteMyPendingArticle", result);
       })
+    },
+    updateUser( data) {
+      console.log(data.formData);
+      // axios.post('api/v1/dashboard/user/7?_method=PUT', data.formData).then((result) => {
+      //   commit("updateUser", result);
+      // })
     }
+    // valid({ commit }) {
+    //   axios.get('api/v1/valid').then((result) => {
+    //     commit('valid', result);
+    //   })
+    // },
   },
   getters: {
     user: (state) => {

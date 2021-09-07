@@ -22,9 +22,11 @@
 </template>
 
 <script>
+import store from "./store";
 import AppHeader from "@/components/global/AppHeader.vue";
 import AdminNavbar from "@/components/admin/Navbar.vue";
 import SideMenu from "@/components/admin/SideMenu.vue";
+import axios from "axios";
 
 export default {
   name: "app",
@@ -39,11 +41,31 @@ export default {
     AdminNavbar,
     SideMenu,
   },
-  methods: {},
+  methods: {
+    valid() {
+      return store.dispatch("valid");
+    },
+  },
   computed: {
     links: function () {
       return this.$route.fullPath.includes("admin");
     },
+  },
+  mounted() {
+    // this.valid();
+  },
+  created: function () {
+    axios.interceptors.response.use(
+      function (response) {
+        if (response.data.msg == "invalid-token") {
+          return store.dispatch("logout");
+        }
+        return response;
+      },
+      function (err) {
+        return Promise.reject(err);
+      }
+    );
   },
 };
 </script>

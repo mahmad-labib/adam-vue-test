@@ -18,6 +18,4 @@ axios.defaults.baseURL = "http://apiProject.stg";
 axios.defaults.headers.common['Authorization'] = 'Bearer' + ' ' + token;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-
-
 createApp(app).use(store).use(router).provide('Cookies', Cookies).mount("#app");

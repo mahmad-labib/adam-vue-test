@@ -142,9 +142,16 @@
               </div>
             </div>
           </div>
-          <div @click="editState()" class="row form-button mx-auto">
-            <div class="col-md-12 my-auto" v-if="edit">Submit</div>
-            <div class="col-md-12 my-auto" v-else>Edit</div>
+          <div class="row form-button mx-auto">
+            <div @click="updateUser(user)" class="col-md-12 my-auto" v-if="edit">
+              Submit
+            </div>
+            <div @click="editState()" class="col-md-12 my-auto" v-else>
+              Edit
+            </div>
+          </div>
+          <div @click="cancel()" v-if="edit" class="row mx-auto">
+            <div class="col-md-12 my-auto btn btn-danger">Cancel</div>
           </div>
         </div>
       </div>
@@ -273,6 +280,7 @@
 import store from "../../store";
 import { mapState } from "vuex";
 import NewsBox from "../../components/news/NewsBox.vue";
+
 export default {
   name: "admin-home",
   components: {
@@ -282,6 +290,10 @@ export default {
     return {
       edit: false,
       page: 1,
+      userData: {},
+      oldPassword:'',
+      password: '',
+      
     };
   },
   methods: {
@@ -304,6 +316,24 @@ export default {
       } else {
         this.Articles(paginate);
       }
+    },
+    cancel() {
+      this.editState();
+    },
+    updateUser(user) {
+      var formData = new FormData();
+      formData.append("name", user.name);
+      formData.append("email", user.email);
+      formData.append("speciality", user.speciality);
+      formData.append("fb_link", user.fb_link);
+      formData.append("twitter_link", user.twitter_link);
+      formData.append("oldPassword", oldPassword);
+      formData.append("password", password);
+      formData.append("confirmPassword", confirmPassword);
+
+      return store.dispatch("updateUser", {
+        formData,
+      });
     },
   },
   computed: {
